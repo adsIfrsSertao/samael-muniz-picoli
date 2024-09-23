@@ -1,0 +1,16 @@
+.table-user-information th, .table-user-information td {
+    vertical-align: middle; /* Alinha verticalmente o conteúdo das células */
+}
+
+.table-user-information th {
+    width: 30%; /* Ajusta a largura das colunas para manter o alinhamento */
+}
+
+.table-user-information td {
+    width: 70%; /* Ajusta a largura das colunas para manter o alinhamento */
+}
+
+.table-user-information {
+    margin: 0 auto; /* Centraliza a tabela horizontalmente */
+    max-width: 600px; /* Define uma largura máxima para a tabela */
+}

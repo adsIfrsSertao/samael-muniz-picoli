@@ -1,0 +1,31 @@
+/* Estilo para a tabela */
+#cliente-table {
+    width: 80%; /* Ajuste a largura da tabela conforme necessário */
+    margin: 0 auto; /* Centraliza a tabela horizontalmente */
+    table-layout: fixed; /* Garante que a tabela utilize largura fixa */
+}
+
+/* Estilo para as células da tabela */
+#cliente-table td, #cliente-table th {
+    text-align: center; /* Centraliza o texto dentro das células */
+    vertical-align: middle; /* Centraliza verticalmente o texto */
+    font-size: 16px; /* Ajusta o tamanho da fonte conforme necessário */
+    padding: 10px; /* Adiciona um pouco de preenchimento para melhor aparência */
+}
+
+/* Estilo específico para a coluna de ações */
+#cliente-table .actions-col {
+    display: flex; /* Usa flexbox para o alinhamento */
+    justify-content: center; /* Alinha os itens horizontalmente no centro */
+    align-items: center; /* Alinha os itens verticalmente no centro */
+}
+
+/* Estilo para os botões de ação */
+#cliente-table .actions-col .btn {
+    margin: 0 5px; /* Adiciona espaço entre os botões */
+}
+
+/* Estilo para a paginação */
+.container-paginacao {
+    margin-top: 10px; /* Ajuste a margem conforme necessário */
+}

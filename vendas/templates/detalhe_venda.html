@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% load widget_tweaks %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/produtos/detalhe_produto.css' %}">
+{% endblock css %}
+
+{% block conteudo %}
+
+<div class="container mt-4">
+    <div class="row mb-3">
+        <!-- Botão de Voltar à esquerda -->
+        <div class="col text-left">
+            <a href="{% url 'vendas:lista_vendas' %}" class="btn btn-light">
+                Voltar
+            </a>
+        </div>
+
+        <div class="col text-right">
+            <a href="{% url 'vendas:editar_venda' objeto.pk %}">
+                <button type="button" class="btn btn-primary">
+                    <span class="fa fa-pencil"></span> Editar
+                </button>
+            </a>
+            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal" data-url="{% url 'vendas:deletar_venda' objeto.pk %}">
+                <span class="fa fa-trash"></span> Apagar
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="container text-center mt-5">
+    <h1>
+        {{ objeto }}
+    </h1>
+    
+</div>
+
+
+{% include 'includes/modal_confirmacao.html' %}
+
+{% endblock conteudo %}
+
+{% block js %}
+<script>
+    $('#deleteModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget)
+        var url = button.data('url')
+        var confirmBtn = $('#confirmDeleteBtn')
+        confirmBtn.attr('href', url)
+    });
+</script>
+{% endblock js %}

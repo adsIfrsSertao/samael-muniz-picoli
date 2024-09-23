@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load widget_tweaks %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/formulario.css' %}">
+{% endblock css %}
+
+{% block conteudo %}
+
+<div class="container">
+    <div class="top-container">
+        <a href="{% url 'vendas:lista_vendas' %}" class="btn btn-secondary back-btn">
+            Voltar
+        </a>
+    </div>
+
+    <div class="form-container">
+        <form method="POST" novalidate>
+            {% csrf_token %}
+            <div class="row">
+                {% for field in form.visible_fields %}
+                    {% if field.name not in "quantidade valor_unitario valor_total" %}
+                    <div class="col-md-4">
+                        <div class="form-group{% if field.errors %} has-error {% endif %}">
+                            <label for="{{ field.id_for_label }}">
+                                {% if field.field.required %}
+                                    <span class="required">{{ field.label }} </span>
+                                {% else %}
+                                    {{ field.label }}
+                                {% endif %}
+                            </label>
+                            {% render_field field class="form-control" %}
+                            {% for error in field.errors %}
+                                <span class="text-muted">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="quantidade">Quantidade</label>
+                        <input type="number" id="quantidade" class="form-control" name="quantidade" value="{{ venda.quantidade }}" oninput="calcularTotal()" required>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="valor_unitario">Valor Unitário</label>
+                        <input type="number" id="valor_unitario" class="form-control" name="valor_unitario" value="{{ venda.valor_unitario|floatformat:2 }}" oninput="calcularTotal()" required>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="valor_total">Valor Total</label>
+                        <input type="number" id="valor_total" class="form-control" name="valor_total" readonly>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <button type="submit" class="btn btn-success" style="margin-bottom: 20px;">Cadastrar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock conteudo %}
+
+{% block js %}
+<script src="{% static 'js/formulario_venda/calculo.js' %}"></script>
+{% endblock js %}

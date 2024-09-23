@@ -1,0 +1,18 @@
+/* Estilo para a tabela de produtos */
+#produtos-table th, #produtos-table td {
+    padding: 12px 15px; /* Ajusta o espaçamento interno das células */
+}
+
+#produtos-table th {
+    text-align: center; /* Centraliza o texto do cabeçalho das colunas */
+}
+
+#produtos-table td {
+    text-align: center; /* Centraliza o texto das células */
+}
+
+/* Estilo para a paginação */
+.container-paginacao {
+    margin-top: 10px; /* Ajuste a margem conforme necessário */
+}
+

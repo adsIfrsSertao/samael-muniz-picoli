@@ -1,0 +1,18 @@
+<!-- Extendendo meu template base.html -->
+{% extends "base.html" %}
+
+{% block titulo %}
+<title>Evolução Agrícola LTDA</title>
+{% endblock titulo %}
+
+<!-- Sobreescrevendo o block conteudo -->
+{% block conteudo %}
+
+<div class="jumbotron">
+    <div class="container">
+        <h1>Bem vindo!</h1>
+        <p>Esse é um sistema para análise e visualização de dados referentes a vendas realizadas na empresa <b>Evolução Agrícola LTDA</b>.</p>
+    </div>
+</div>
+
+{% endblock conteudo %}
