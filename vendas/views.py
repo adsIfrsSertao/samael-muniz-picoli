@@ -4,6 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse_lazy
+from django.utils import formats
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 
 from .forms import VendaForm
@@ -88,6 +89,14 @@ class EditarVenda(LoginRequiredMixin, UpdateView):
     template_name = 'formulario_venda.html'
     form_class = VendaForm
     success_url = reverse_lazy('vendas:lista_vendas')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        venda = self.object 
+        context['venda'].valor_unitario = "{:.2f}".format(venda.valor_unitario).replace(',', '.')
+        context['venda'].valor_total = "{:.2f}".format(venda.valor_total).replace(',', '.')
+        return context
+    
 
     def form_valid(self, form):
         print(

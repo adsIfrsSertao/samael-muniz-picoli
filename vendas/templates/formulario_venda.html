@@ -5,6 +5,27 @@
 
 {% block css %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/formulario.css' %}">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+<style>
+    /* Ajustando a altura dos selects */
+    .select2-container .select2-selection--single {
+        height: 40px; /* Define a altura desejada */
+        display: flex;
+        align-items: center; /* Alinha o texto verticalmente */
+    }
+
+    /* Ajuste do campo de renderização do texto dentro do select2 */
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+        padding-top: 0px;
+        padding-bottom: 0px;
+        line-height: 40px; /* Mesma altura que a altura definida acima */
+    }
+
+    /* Ajuste da seta dentro do select2 para alinhar corretamente */
+    .select2-container--default .select2-selection--single .select2-selection__arrow {
+        height: 40px; /* Alinhado com a altura do select */
+    }
+</style>
 {% endblock css %}
 
 {% block conteudo %}
@@ -20,57 +41,111 @@
         <form method="POST" novalidate>
             {% csrf_token %}
             <div class="row">
-                {% for field in form.visible_fields %}
-                    {% if field.name not in "quantidade valor_unitario valor_total" %}
-                    <div class="col-md-4">
-                        <div class="form-group{% if field.errors %} has-error {% endif %}">
-                            <label for="{{ field.id_for_label }}">
-                                {% if field.field.required %}
-                                    <span class="required">{{ field.label }} </span>
-                                {% else %}
-                                    {{ field.label }}
-                                {% endif %}
-                            </label>
-                            {% render_field field class="form-control" %}
-                            {% for error in field.errors %}
-                                <span class="text-muted">{{ error }}</span>
-                            {% endfor %}
-                        </div>
+                
+                <!-- Campo cliente -->
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="id_cliente">{{ form.cliente.label }}</label>
+                        {% render_field form.cliente class="form-control select2" %}
+                        {% for error in form.cliente.errors %}
+                            <span class="text-muted">{{ error }}</span>
+                        {% endfor %}
                     </div>
-                    {% endif %}
-                {% endfor %}
+                </div>
+                
+                <!-- Campo vendedor -->
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="id_vendedor">{{ form.vendedor.label }}</label>
+                        {% render_field form.vendedor class="form-control select2" %}
+                        {% for error in form.vendedor.errors %}
+                            <span class="text-muted">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Campo produto -->
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="id_produto">{{ form.produto.label }}</label>
+                        {% render_field form.produto class="form-control select2" %}
+                        {% for error in form.produto.errors %}
+                            <span class="text-muted">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+
+            </div>
+            
+            <div class="row">
+                <!-- Campo Data da Venda, NF e Unidade -->
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="id_data_venda">{{ form.data_da_venda.label }}</label>
+                        <input type="date" id="id_data_venda" class="form-control" name="data_da_venda" 
+                               value="{{ form.data_da_venda.value|date:"Y-m-d" }}" required>
+                        {% for error in form.data_da_venda.errors %}
+                            <span class="text-muted">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
 
                 <div class="col-md-4">
                     <div class="form-group">
+                        <label for="id_nota_fiscal">{{ form.nf.label }}</label>
+                        {% render_field form.nf class="form-control" min="0" %}
+                        {% for error in form.nf.errors %}
+                            <span class="text-muted">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="id_unidade">{{ form.unidade.label }}</label>
+                        {% render_field form.unidade class="form-control" %}
+                        {% for error in form.unidade.errors %}
+                            <span class="text-muted">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+                
+
+                <!-- Campos de quantidade, valor unitário e valor total -->
+                <div class="col-md-4">
+                    <div class="form-group">
                         <label for="quantidade">Quantidade</label>
-                        <input type="number" id="quantidade" class="form-control" name="quantidade" value="{{ venda.quantidade }}" oninput="calcularTotal()" required>
+                        <input type="number" id="quantidade" class="form-control" name="quantidade" value="{{ venda.quantidade }}" oninput="calcularTotal()" min="0" required>
                     </div>
                 </div>
                 
                 <div class="col-md-4">
                     <div class="form-group">
                         <label for="valor_unitario">Valor Unitário</label>
-                        <input type="number" id="valor_unitario" class="form-control" name="valor_unitario" value="{{ venda.valor_unitario|floatformat:2 }}" oninput="calcularTotal()" required>
+                        <input type="number" id="valor_unitario" class="form-control" name="valor_unitario" value="{{ venda.valor_unitario }}" oninput="calcularTotal()" min="0" required>
                     </div>
                 </div>
                 
                 <div class="col-md-4">
                     <div class="form-group">
                         <label for="valor_total">Valor Total</label>
-                        <input type="number" id="valor_total" class="form-control" name="valor_total" readonly>
+                        <input type="number" id="valor_total" class="form-control" name="valor_total" value="{{ venda.valor_total }}" readonly>
                     </div>
                 </div>
             </div>
 
             <div class="text-center">
-                <button type="submit" class="btn btn-success" style="margin-bottom: 20px;">Cadastrar</button>
+                <button type="submit" class="btn btn-success" style="margin-bottom: 40px;">Cadastrar</button>
             </div>
         </form>
     </div>
 </div>
 
+
 {% endblock conteudo %}
 
 {% block js %}
-<script src="{% static 'js/formulario_venda/calculo.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script src="{% static 'js/formulario_venda/inputs.js' %}"></script>
 {% endblock js %}
