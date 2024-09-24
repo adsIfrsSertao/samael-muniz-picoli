@@ -1,4 +1,6 @@
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import CreateView, DeleteView, UpdateView, ListView
@@ -10,7 +12,7 @@ from .forms import VendaForm
 
 
 # Create your views here.
-class VendaList(ListView):
+class VendaList(LoginRequiredMixin, ListView):
     """
     Classe-based view para listar Vendas.
     
@@ -25,6 +27,7 @@ class VendaList(ListView):
     context_object_name = 'vendas'
 
 
+@login_required(login_url='/usuarios/login/')
 def detalhe_venda(request, pk):
     """
     View para exibir os detalhes de um Venda específico.
@@ -49,7 +52,7 @@ def detalhe_venda(request, pk):
     return render(request, template_name=nome_template, context=contexto)
 
 
-class CriarVenda(CreateView):
+class CriarVenda(LoginRequiredMixin, CreateView):
     """
     View baseada em classe para criar um novo Venda.
 
@@ -70,7 +73,7 @@ class CriarVenda(CreateView):
     
 
 
-class EditarVenda(UpdateView):
+class EditarVenda(LoginRequiredMixin, UpdateView):
     """
     View baseada em classe para editar um Venda.
 
@@ -97,7 +100,7 @@ class EditarVenda(UpdateView):
 
 
 
-class DeletarVenda(DeleteView):
+class DeletarVenda(LoginRequiredMixin, DeleteView):
     """
     View baseada em classe para deletar uma venda.
 
@@ -116,6 +119,7 @@ class DeletarVenda(DeleteView):
         return self.post(request, *args, **kwargs)
 
 
+@login_required(login_url='/usuarios/login/')
 def venda_json(request, pk):
     """
     Retorna os dados de um Venda específico em formato JSON.

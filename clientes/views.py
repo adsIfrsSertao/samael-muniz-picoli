@@ -1,4 +1,6 @@
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
@@ -9,7 +11,7 @@ from .models import Cliente
 
 
 # Create your views here.
-class ClientesList(ListView):
+class ClientesList(LoginRequiredMixin, ListView):
     """
     Classe-based view para listar Cliente.
     
@@ -24,7 +26,7 @@ class ClientesList(ListView):
     context_object_name = 'clientes'
 
 
-class CriarCliente(CreateView):
+class CriarCliente(LoginRequiredMixin, CreateView):
     """
     View baseada em classe para criar um novo Cliente.
 
@@ -45,7 +47,7 @@ class CriarCliente(CreateView):
         return super().form_valid(form)
     
 
-class EditarCliente(UpdateView):
+class EditarCliente(LoginRequiredMixin, UpdateView):
     """
     View baseada em classe para editar um cliente.
 
@@ -66,7 +68,7 @@ class EditarCliente(UpdateView):
         return super().form_valid(form)
 
 
-class DeletarCliente(DeleteView):
+class DeletarCliente(LoginRequiredMixin, DeleteView):
     """
     View baseada em classe para deletar um cliente.
 
@@ -85,6 +87,7 @@ class DeletarCliente(DeleteView):
         return self.post(request, *args, **kwargs)
 
 
+@login_required(login_url='usuarios/login/')
 def cliente_json(request, pk):
     """
     Retorna os dados de um cliente específico em formato JSON.

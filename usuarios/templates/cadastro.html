@@ -1,21 +1,16 @@
-{% extends "base.html" %}
+{% extends "formulario.html" %}
 
 {% load static %}
 {% load widget_tweaks %}
 
 {% block css %}
-<link rel="stylesheet" type="text/css" href="{% static 'css/formulario.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/usuarios/cadastro.css' %}">
 {% endblock css %}
 
 {% block conteudo %}
-
 <div class="container">
-    <div class="top-container">
-        {% block url %}
-        {% endblock url %}
-    </div>
-
     <div class="form-container">
+        <h2>Cadastrar Usuário</h2>
         <form method="POST" novalidate>
             {% csrf_token %}
             {% for field in form.visible_fields %}
@@ -31,9 +26,8 @@
                     <span class="text-muted">{{ field.errors.0 }}</span>
                 </div>
             {% endfor %}
-            <button type="submit" class="btn btn-success">Cadastrar</button>
+            <button type="submit" class="btn btn-success">Entrar</button>
         </form>
     </div>
 </div>
-
 {% endblock conteudo %}

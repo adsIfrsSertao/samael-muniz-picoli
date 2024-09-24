@@ -1,4 +1,6 @@
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
@@ -7,7 +9,8 @@ from django.urls import reverse_lazy
 from .forms import VendedorForm
 from .models import Vendedor
 
-class VendedoresList(ListView):
+
+class VendedoresList(LoginRequiredMixin, ListView):
     """
     Classe-based view para listar vendedor.
     
@@ -23,7 +26,7 @@ class VendedoresList(ListView):
 
 
 
-class CriarVendedor(CreateView):
+class CriarVendedor(LoginRequiredMixin, CreateView):
     """
     View baseada em classe para criar um novo vendedor.
 
@@ -44,7 +47,7 @@ class CriarVendedor(CreateView):
     
 
 
-class EditarVendedor(UpdateView):
+class EditarVendedor(LoginRequiredMixin, UpdateView):
     """
     View baseada em classe para editar um vendedor.
 
@@ -65,7 +68,7 @@ class EditarVendedor(UpdateView):
 
 
 
-class DeletarVendedor(DeleteView):
+class DeletarVendedor(LoginRequiredMixin, DeleteView):
     """
     View baseada em classe para deletar um vendedor.
 
@@ -84,6 +87,7 @@ class DeletarVendedor(DeleteView):
         return self.post(request, *args, **kwargs)
 
 
+@login_required(login_url='/usuarios/login/')
 def vendedor_json(request, pk):
     """
     Retorna os dados de um vendedor específico em formato JSON.

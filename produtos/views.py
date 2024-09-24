@@ -1,4 +1,6 @@
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
@@ -8,7 +10,7 @@ from .forms import ProdutoForm
 from .models import Produto
 
 
-class ProdutoList(ListView):
+class ProdutoList(LoginRequiredMixin, ListView):
     """
     Classe-based view para listar produtos.
     
@@ -23,6 +25,7 @@ class ProdutoList(ListView):
     context_object_name = 'produtos'
 
 
+@login_required(login_url='usuarios/login/')
 def detalhe_produto(request, pk):
     """
     View para exibir os detalhes de um produto específico.
@@ -41,7 +44,7 @@ def detalhe_produto(request, pk):
     return render(request, template_name=nome_template, context=contexto)
 
 
-class CriarProduto(CreateView):
+class CriarProduto(LoginRequiredMixin, CreateView):
     """
     View baseada em classe para criar um novo produto.
 
@@ -61,7 +64,7 @@ class CriarProduto(CreateView):
         return super().form_valid(form)
     
 
-class EditarProduto(UpdateView):
+class EditarProduto(LoginRequiredMixin, UpdateView):
     """
     View baseada em classe para editar um produto.
 
@@ -81,7 +84,7 @@ class EditarProduto(UpdateView):
         return super().form_valid(form)
 
 
-class DeletarProduto(DeleteView):
+class DeletarProduto(LoginRequiredMixin, DeleteView):
     """
     View baseada em classe para deletar um produto.
 
@@ -100,6 +103,7 @@ class DeletarProduto(DeleteView):
         return self.post(request, *args, **kwargs)
 
 
+@login_required(login_url='usuarios/login/')
 def produto_json(request, pk):
     """
     Retorna os dados de um produto específico em formato JSON.
