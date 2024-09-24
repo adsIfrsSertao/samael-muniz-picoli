@@ -7,7 +7,7 @@ class VendedorForm(forms.ModelForm):
     """
     Formulário para criação e atualização de objetos do modelo Vendedor.
 
-    Este formulário é baseado no modelo Vendedor e inclui 
+    Este formulário é baseado no modelo Vendedor e inclui
     todos os campos do modelo.
     """
 
@@ -17,8 +17,9 @@ class VendedorForm(forms.ModelForm):
 
         Atributos:
             model (Model): O modelo que será utilizado neste formulário.
-            fields (str or list): Os campos do modelo a serem 
+            fields (str or list): Os campos do modelo a serem
             incluídos no formulário.
         """
+
         model = Vendedor
         fields = '__all__'

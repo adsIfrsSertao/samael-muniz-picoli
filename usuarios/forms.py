@@ -1,6 +1,7 @@
+from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from django import forms
+
 
 class CustomUserCreationForm(UserCreationForm):
     """
@@ -13,6 +14,7 @@ class CustomUserCreationForm(UserCreationForm):
     Attributes:
         Meta: Classe interna que define o modelo e os campos do formulário.
     """
+
     class Meta:
         model = User
         fields = ('username', 'password1', 'password2')
@@ -28,7 +30,7 @@ class CustomUserCreationForm(UserCreationForm):
         super(CustomUserCreationForm, self).__init__(*args, **kwargs)
         self.fields['password1'].label = 'Senha'
         self.fields['password2'].label = 'Confirme a Senha'
-    
+
     def clean_username(self):
         """
         Verifica se o nome de usuário já está em uso.
@@ -44,5 +46,7 @@ class CustomUserCreationForm(UserCreationForm):
         """
         username = self.cleaned_data.get('username')
         if User.objects.filter(username=username).exists():
-            raise forms.ValidationError("Esse nome de usuário já está em uso. Escolha outro, por favor.")
+            raise forms.ValidationError(
+                'Esse nome de usuário já está em uso. Escolha outro, por favor.'
+            )
         return username

@@ -1,7 +1,6 @@
 from django.db import models
 
 # Create your models here.
-
 class Cliente(models.Model):
     """
     Representa um cliente no sistema.
@@ -9,8 +8,8 @@ class Cliente(models.Model):
     Attributes:
         nome (str): Nome do cliente, deve ser único e não pode ser nulo.
     """
+
     nome = models.CharField(max_length=100, unique=True, null=False)
-    
 
     class Meta:
         """
@@ -18,12 +17,12 @@ class Cliente(models.Model):
 
         Attributes:
             ordering (tuple): Define a ordenação padrão das instâncias
-            de Cliente. No caso, os clientes serão ordenados pelo 
+            de Cliente. No caso, os clientes serão ordenados pelo
             campo 'nome' em ordem alfabética.
 
         """
-        ordering = ('nome',)
 
+        ordering = ('nome',)
 
     def __str__(self):
         """
@@ -33,7 +32,6 @@ class Cliente(models.Model):
             str: O nome do cliente.
         """
         return f'{self.nome}'
-    
 
     def dict_to_json(self):
         """
@@ -41,12 +39,12 @@ class Cliente(models.Model):
         para conversão em JSON.
 
         Este método é utilizado para serializar os dados do cliente
-        em um formato de dicionário, adequado para 
-        conversão em JSON, facilitando a integração com APIs ou 
+        em um formato de dicionário, adequado para
+        conversão em JSON, facilitando a integração com APIs ou
         outras funcionalidades que requeiram dados em formato JSON.
 
         Returns:
-            dict: Um dicionário contendo o identificador primário (pk), 
+            dict: Um dicionário contendo o identificador primário (pk),
             e o nome do cliente.
         """
         return {

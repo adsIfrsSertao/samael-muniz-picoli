@@ -2,10 +2,11 @@ from django.contrib.auth.mixins import UserPassesTestMixin
 from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView
 from django.shortcuts import redirect
-from django.views.generic.edit import CreateView
 from django.urls import reverse_lazy
+from django.views.generic.edit import CreateView
 
 from usuarios.forms import CustomUserCreationForm
+
 
 class CadastrarUsuario(UserPassesTestMixin, CreateView):
     """
@@ -20,6 +21,7 @@ class CadastrarUsuario(UserPassesTestMixin, CreateView):
         template_name: O template a ser renderizado para o cadastro.
         success_url: A URL para redirecionar após o cadastro bem-sucedido.
     """
+
     model = User
     form_class = CustomUserCreationForm
     template_name = 'cadastro.html'
@@ -41,11 +43,11 @@ class CadastrarUsuario(UserPassesTestMixin, CreateView):
 
         Caso o usuário não tenha permissão para acessar esta view,
         ele é redirecionado para a URL especificada.
-        
+
         Returns:
             HttpResponse: Redireciona para a página inicial.
         """
-        return redirect('core:index') 
+        return redirect('core:index')
 
 
 class CustomLoginView(LoginView):
@@ -60,6 +62,7 @@ class CustomLoginView(LoginView):
         template_name: O template a ser renderizado para o login.
         success_url: A URL para redirecionar após um login bem-sucedido.
     """
+
     template_name = 'login.html'
     success_url = reverse_lazy('core:index')
 
@@ -79,7 +82,7 @@ class CustomLoginView(LoginView):
         form.errors.clear()
         form.add_error(None, 'Senha ou usuário inválido.')
         return super().form_invalid(form)
-    
+
     def get(self, request, *args, **kwargs):
         """
         Manipula solicitações GET para a view de login.
