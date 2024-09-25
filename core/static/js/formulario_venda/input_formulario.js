@@ -1,5 +1,7 @@
-// Leitura do documento e inicializar select2
+// Leitura do documento
 $(document).ready(function() {
+
+    // Inicializar select2
     $('#id_cliente').select2();
     $('#id_produto').select2();
     $('#id_vendedor').select2();
@@ -11,11 +13,14 @@ $(document).ready(function() {
             input.value = Math.abs(input.value);
         }
     }
+
+
     $('#quantidade, #valor_unitario, #id_nota_fiscal').on('input', function() {
         positiveValue(this);
         calcularTotal();
     });
 });
+
 
 // Função para calcular o valor total automaticamente
 function calcularTotal() {

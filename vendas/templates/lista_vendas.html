@@ -53,7 +53,7 @@
             <tbody id="list">
                 {% for venda in vendas %}
                 <tr>
-                    <td><a href="{% url 'vendas:detalhe_venda' venda.pk %}">{{ venda.pk }}</a></td>
+                    <td><a href="{% url 'vendas:detalhe_venda' venda.pk %}">{{ venda }}</a></td>
                     <td>
                         <a href="{% url 'vendas:editar_venda' venda.pk %}" class="btn btn-primary btn-sm">Editar</a>
                         <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal" data-url="{% url 'vendas:deletar_venda' venda.pk %}">Apagar</button>

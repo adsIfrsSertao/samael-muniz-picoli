@@ -62,10 +62,23 @@
 
             
         </ul>
+        {% if user.is_superuser %}
+            <ul class="navbar-nav px-3">
+                <li class="nav-item text-nowrap">
+                    <a href="{% url 'usuarios:registrar' %}" class="nav-link">Registrar</a>
+                </li>
+            </ul>
+        {% endif %}
         {% if user.is_authenticated %}
             <ul class="navbar-nav px-3">
                 <li class="nav-item text-nowrap">
                     <a href="{% url 'logout' %}" class="nav-link">Sair</a>
+                </li>
+            </ul>
+        {% else %}
+            <ul class="navbar-nav px-3">
+                <li class="nav-item text-nowrap">
+                    <a href="{% url 'usuarios:login' %}" class="nav-link">Entrar</a>
                 </li>
             </ul>
         {% endif %}

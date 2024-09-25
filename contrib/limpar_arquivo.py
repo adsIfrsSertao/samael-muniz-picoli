@@ -11,9 +11,22 @@ def limpar_nome(nome):
     return re.sub(r'^\d+\s*-\s*', '', nome).strip()
 
 
+# Função para limpar o Documento (NF)
+def limpar_documento(doc):
+    return re.sub(r'^NFE--', '', doc).strip()
+
+
+# Função para limpar a Descrição do Produto/Serviço
+def limpar_descricao(descricao):
+    return re.sub(r' -? ?-? .+$', '', descricao).replace('-', '').strip()
+
 # Aplicar a função de limpeza nas colunas
 df['VENDEDOR'] = df['VENDEDOR'].apply(limpar_nome)
 df['CLIENTE'] = df['CLIENTE'].apply(limpar_nome)
+df['Documento'] = df['Documento'].apply(limpar_documento)
+df['Descrição do Produto/Serviço'] = df['Descrição do Produto/Serviço'].apply(
+    limpar_descricao
+)
 
 # Limpar a coluna 'Código' e convertê-la para inteiro
 df['Código'] = (
