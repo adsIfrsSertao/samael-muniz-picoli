@@ -1,0 +1,26 @@
+/* Estilo para as células da tabela de listagem */
+#lista-table td, #lista-table th {
+    text-align: center; 
+    vertical-align: middle;
+    font-size: 16px; 
+    padding: 10px; 
+}
+
+/* Estilo específico para a coluna de ações */
+#lista-table .actions-col {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Estilo para os botões de ação */
+#lista-table .actions-col .btn {
+    margin: 0 5px;
+}
+
+/* Estilo para a tabela de listagem das páginas */
+#lista-table {
+    width: 80%; 
+    margin: 0 auto; 
+    table-layout: fixed; 
+}

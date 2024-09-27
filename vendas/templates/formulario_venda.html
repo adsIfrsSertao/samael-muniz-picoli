@@ -6,26 +6,7 @@
 {% block css %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/formulario.css' %}">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
-<style>
-    /* Ajustando a altura dos selects */
-    .select2-container .select2-selection--single {
-        height: 40px; /* Define a altura desejada */
-        display: flex;
-        align-items: center; /* Alinha o texto verticalmente */
-    }
-
-    /* Ajuste do campo de renderização do texto dentro do select2 */
-    .select2-container--default .select2-selection--single .select2-selection__rendered {
-        padding-top: 0px;
-        padding-bottom: 0px;
-        line-height: 40px; /* Mesma altura que a altura definida acima */
-    }
-
-    /* Ajuste da seta dentro do select2 para alinhar corretamente */
-    .select2-container--default .select2-selection--single .select2-selection__arrow {
-        height: 40px; /* Alinhado com a altura do select */
-    }
-</style>
+<link rel="stylesheet" type="text/css" href="{% static 'css/vendas/selects.css' %}">
 {% endblock css %}
 
 {% block conteudo %}
@@ -165,5 +146,5 @@
 {% block js %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
-    <script src="{% static 'js/formulario_venda/input_formulario.js' %}"></script>
+    <script src="{% static 'js/vendas/input_formulario.js' %}"></script>
 {% endblock js %}
