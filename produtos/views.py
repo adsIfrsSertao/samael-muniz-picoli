@@ -25,6 +25,26 @@ class ProdutoList(LoginRequiredMixin, ListView):
     paginate_by = 3
     context_object_name = 'produtos'
 
+    def get_queryset(self):
+        """
+        Retorna o conjunto de consultas para a listagem de produtos.
+
+        O método filtra os produtos com base no parâmetro de busca 'produto'
+        fornecido na requisição GET. Se o parâmetro estiver presente e não for vazio,
+        o queryset será filtrado para incluir apenas os produtos cujo nome contém
+        o valor fornecido.
+
+        Returns:
+            QuerySet: O conjunto de produtos filtrado.
+        """
+        
+        queryset = super().get_queryset()
+        produto = self.request.GET.get('produto', '')
+        if produto:
+            queryset = queryset.filter(produto__icontains=produto)
+
+        return queryset
+
 
 @login_required(login_url='usuarios/login/')
 def detalhe_produto(request, pk):

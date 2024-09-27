@@ -1,7 +1,7 @@
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.http import Http404, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
@@ -10,7 +10,14 @@ from .forms import VendedorForm
 from .models import Vendedor
 
 
-class VendedoresList(LoginRequiredMixin, ListView):
+class SuperAdminRequiredMixin(UserPassesTestMixin):
+    def test_func(self):
+        if not self.request.user.is_superuser:
+            raise Http404("Página não encontrada")
+        return True
+
+
+class VendedoresList(SuperAdminRequiredMixin, LoginRequiredMixin, ListView):
     """
     Classe-based view para listar vendedor.
 
@@ -25,8 +32,28 @@ class VendedoresList(LoginRequiredMixin, ListView):
     paginate_by = 3
     context_object_name = 'vendedores'
 
+    def get_queryset(self):
+        """
+        Retorna o conjunto de consultas para a listagem de vendedores.
 
-class CriarVendedor(LoginRequiredMixin, CreateView):
+        O método filtra os vendedores com base no parâmetro de busca 'nome'
+        fornecido na requisição GET. Se o parâmetro estiver presente e não for vazio,
+        o queryset será filtrado para incluir apenas os vendedores cujo nome contém
+        o valor fornecido.
+
+        Returns:
+            QuerySet: O conjunto de vendedores filtrado.
+        """
+        
+        queryset = super().get_queryset()
+        vendedor = self.request.GET.get('vendedor', '')
+        if vendedor:
+            queryset = queryset.filter(nome__icontains=vendedor)
+
+        return queryset
+
+
+class CriarVendedor(SuperAdminRequiredMixin, LoginRequiredMixin, CreateView):
     """
     View baseada em classe para criar um novo vendedor.
 
@@ -47,7 +74,7 @@ class CriarVendedor(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class EditarVendedor(LoginRequiredMixin, UpdateView):
+class EditarVendedor(SuperAdminRequiredMixin, LoginRequiredMixin, UpdateView):
     """
     View baseada em classe para editar um vendedor.
 
@@ -68,7 +95,7 @@ class EditarVendedor(LoginRequiredMixin, UpdateView):
         return super().form_valid(form)
 
 
-class DeletarVendedor(LoginRequiredMixin, DeleteView):
+class DeletarVendedor(SuperAdminRequiredMixin, LoginRequiredMixin, DeleteView):
     """
     View baseada em classe para deletar um vendedor.
 
@@ -89,6 +116,7 @@ class DeletarVendedor(LoginRequiredMixin, DeleteView):
 
 
 @login_required(login_url='/usuarios/login/')
+@user_passes_test(lambda u: u.is_superuser, redirect_field_name=None)
 def vendedor_json(request, pk):
     """
     Retorna os dados de um vendedor específico em formato JSON.

@@ -4,7 +4,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse_lazy
-from django.utils import formats
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 
 from .forms import VendaForm
@@ -26,6 +25,28 @@ class VendaList(LoginRequiredMixin, ListView):
     template_name = 'lista_vendas.html'
     paginate_by = 3
     context_object_name = 'vendas'
+
+    def get_queryset(self):
+        """
+        Retorna o conjunto de consultas para a listagem de vendas.
+
+        O método filtra as vendas com base nos parâmetros de busca 'cliente'
+        e 'vendedor' fornecidos na requisição GET. Se qualquer um dos parâmetros
+        estiver presente e não for vazio, o queryset será filtrado para incluir
+        apenas as vendas correspondentes.
+
+        Returns:
+            QuerySet: O conjunto de vendas filtrado.
+        """
+        queryset = super().get_queryset()
+        cliente = self.request.GET.get('cliente', '')
+        vendedor = self.request.GET.get('vendedor', '')
+        if cliente:
+            queryset = queryset.filter(cliente__nome__icontains=cliente)
+        if vendedor:
+            queryset = queryset.filter(vendedor__nome__icontains=vendedor)
+
+        return queryset
 
 
 @login_required(login_url='/usuarios/login/')

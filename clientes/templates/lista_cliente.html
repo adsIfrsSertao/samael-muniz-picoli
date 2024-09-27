@@ -23,9 +23,9 @@
 
     <div class="row" style="margin-top: 80px;">
         <div class="col-sm-6">
-            <form id="search-form" class="form-inline" onsubmit="return false;">
-                <input type="text" id="search" class="form-control" placeholder="Procurar por" style="margin-right: 10px;" oninput="filterProducts()">
-                <button type="button" class="btn btn-primary" onclick="filterProducts()">Buscar</button>
+            <form method="GET" action="{% url 'clientes:lista_cliente' %}" id="search-form" class="form-inline">
+                <input type="text" name="cliente" class="form-control" style="margin-right: 10px;" placeholder="Procurar por Cliente" value="{{ request.GET.cliente }}">
+                <button type="submit" class="btn btn-primary">Buscar</button>
             </form>
         </div>
     </div>

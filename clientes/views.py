@@ -26,6 +26,26 @@ class ClientesList(LoginRequiredMixin, ListView):
     paginate_by = 3
     context_object_name = 'clientes'
 
+    def get_queryset(self):
+        """
+        Retorna o conjunto de consultas para a listagem de clientes.
+
+        O método filtra os clientes com base no parâmetro de busca 'cliente'
+        fornecido na requisição GET. Se o parâmetro estiver presente e não for vazio,
+        o queryset será filtrado para incluir apenas os clientes cujo nome contém
+        o valor fornecido.
+
+        Returns:
+            QuerySet: O conjunto de clientes filtrado.
+        """
+        
+        queryset = super().get_queryset()
+        cliente = self.request.GET.get('cliente', '')
+        if cliente:
+            queryset = queryset.filter(nome__icontains=cliente)
+
+        return queryset
+
 
 class CriarCliente(LoginRequiredMixin, CreateView):
     """
