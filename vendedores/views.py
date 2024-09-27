@@ -11,7 +11,21 @@ from .models import Vendedor
 
 
 class SuperAdminRequiredMixin(UserPassesTestMixin):
+    """
+    Mixin que exige que o usuário seja superadministrador.
+
+    Este mixin eleva um erro 404 se o usuário autenticado não for um superadministrador.
+    """
+
     def test_func(self):
+        """
+        Verifica se o usuário é um superadministrador.
+
+        Returns:
+            bool: True se o usuário for superadministrador, 
+                  caso contrário, levanta um Http404.
+        """
+
         if not self.request.user.is_superuser:
             raise Http404("Página não encontrada")
         return True
@@ -69,7 +83,20 @@ class CriarVendedor(SuperAdminRequiredMixin, LoginRequiredMixin, CreateView):
     form_class = VendedorForm
     success_url = reverse_lazy('vendedores:lista_vendedores')
 
+
     def form_valid(self, form):
+        """
+        Processa o formulário quando é válido.
+
+        Adiciona uma mensagem de sucesso e chama o método pai.
+
+        Args:
+            form (Form): O formulário com os dados do vendedor.
+
+        Returns:
+            HttpResponse: Resposta redirecionando para a URL de sucesso.
+        """
+
         messages.success(self.request, 'Vendedor inserido com sucesso!')
         return super().form_valid(form)
 
@@ -91,6 +118,18 @@ class EditarVendedor(SuperAdminRequiredMixin, LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy('vendedores:lista_vendedores')
 
     def form_valid(self, form):
+        """
+        Processa o formulário quando é válido.
+
+        Adiciona uma mensagem de sucesso e chama o método pai.
+
+        Args:
+            form (Form): O formulário com os dados atualizados do vendedor.
+
+        Returns:
+            HttpResponse: Resposta redirecionando para a URL de sucesso.
+        """
+
         messages.success(self.request, 'Vendedor atualizado com sucesso!')
         return super().form_valid(form)
 
@@ -108,10 +147,36 @@ class DeletarVendedor(SuperAdminRequiredMixin, LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy('vendedores:lista_vendedores')
 
     def delete(self, request, *args, **kwargs):
+        """
+        Processa a solicitação de exclusão de um vendedor.
+
+        Adiciona uma mensagem de sucesso e chama o método pai.
+
+        Args:
+            request (HttpRequest): O objeto de requisição HTTP.
+            *args: Argumentos adicionais.
+            **kwargs: Argumentos adicionais.
+
+        Returns:
+            HttpResponse: Resposta redirecionando para a URL de sucesso.
+        """
+
         messages.success(self.request, 'vendedor removido com sucesso!')
         return super().delete(request, *args, **kwargs)
 
     def get(self, request, *args, **kwargs):
+        """
+        Redireciona a solicitação GET para o método POST.
+
+        Args:
+            request (HttpRequest): O objeto de requisição HTTP.
+            *args: Argumentos adicionais.
+            **kwargs: Argumentos adicionais.
+
+        Returns:
+            HttpResponse: Resposta da solicitação POST.
+        """
+        
         return self.post(request, *args, **kwargs)
 
 
