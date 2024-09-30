@@ -37,7 +37,7 @@ class ProdutoList(LoginRequiredMixin, ListView):
         Returns:
             QuerySet: O conjunto de produtos filtrado.
         """
-        
+
         queryset = super().get_queryset()
         produto = self.request.GET.get('produto', '')
         if produto:

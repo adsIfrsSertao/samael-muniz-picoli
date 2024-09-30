@@ -24,7 +24,6 @@ class VendaForm(forms.ModelForm):
         model = Venda
         fields = '__all__'
 
-
     def clean_quantidade(self):
         """
         Valida o campo 'quantidade'.
@@ -44,7 +43,6 @@ class VendaForm(forms.ModelForm):
             raise forms.ValidationError("A quantidade deve ser pelo menos 1.")
         return quantidade
 
-
     def clean_valor_unitario(self):
         """
         Valida o campo 'valor_unitario'.
@@ -61,9 +59,9 @@ class VendaForm(forms.ModelForm):
 
         valor_unitario = self.cleaned_data.get('valor_unitario')
         if valor_unitario < 0.1:
-            raise forms.ValidationError("O valor unitário deve ser pelo menos 0.1.")
+            raise forms.ValidationError(
+                "O valor unitário deve ser pelo menos 0.1.")
         return valor_unitario
-    
 
     def clean_valor_total(self):
         """
@@ -81,5 +79,6 @@ class VendaForm(forms.ModelForm):
 
         valor_total = self.cleaned_data.get('valor_total')
         if valor_total < 0.1:
-            raise forms.ValidationError("O valor unitário deve ser pelo menos 0.1.")
+            raise forms.ValidationError(
+                "O valor unitário deve ser pelo menos 0.1.")
         return valor_total

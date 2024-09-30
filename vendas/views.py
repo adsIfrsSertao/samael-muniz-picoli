@@ -113,11 +113,12 @@ class EditarVenda(LoginRequiredMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        venda = self.object 
-        context['venda'].valor_unitario = "{:.2f}".format(venda.valor_unitario).replace(',', '.')
-        context['venda'].valor_total = "{:.2f}".format(venda.valor_total).replace(',', '.')
+        venda = self.object
+        context['venda'].valor_unitario = "{:.2f}".format(
+            venda.valor_unitario).replace(',', '.')
+        context['venda'].valor_total = "{:.2f}".format(
+            venda.valor_total).replace(',', '.')
         return context
-    
 
     def form_valid(self, form):
         print(

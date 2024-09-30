@@ -38,7 +38,7 @@ class ClientesList(LoginRequiredMixin, ListView):
         Returns:
             QuerySet: O conjunto de clientes filtrado.
         """
-        
+
         queryset = super().get_queryset()
         cliente = self.request.GET.get('cliente', '')
         if cliente:

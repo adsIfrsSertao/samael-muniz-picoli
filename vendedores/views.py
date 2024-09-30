@@ -22,7 +22,7 @@ class SuperAdminRequiredMixin(UserPassesTestMixin):
         Verifica se o usuário é um superadministrador.
 
         Returns:
-            bool: True se o usuário for superadministrador, 
+            bool: True se o usuário for superadministrador,
                   caso contrário, levanta um Http404.
         """
 
@@ -58,7 +58,7 @@ class VendedoresList(SuperAdminRequiredMixin, LoginRequiredMixin, ListView):
         Returns:
             QuerySet: O conjunto de vendedores filtrado.
         """
-        
+
         queryset = super().get_queryset()
         vendedor = self.request.GET.get('vendedor', '')
         if vendedor:
@@ -82,7 +82,6 @@ class CriarVendedor(SuperAdminRequiredMixin, LoginRequiredMixin, CreateView):
     template_name = 'formulario_vendedor.html'
     form_class = VendedorForm
     success_url = reverse_lazy('vendedores:lista_vendedores')
-
 
     def form_valid(self, form):
         """
@@ -176,7 +175,7 @@ class DeletarVendedor(SuperAdminRequiredMixin, LoginRequiredMixin, DeleteView):
         Returns:
             HttpResponse: Resposta da solicitação POST.
         """
-        
+
         return self.post(request, *args, **kwargs)
 
 

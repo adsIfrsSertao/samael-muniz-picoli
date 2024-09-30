@@ -1,6 +1,8 @@
 from django.db import models
 
 # Create your models here.
+
+
 class Cliente(models.Model):
     """
     Representa um cliente no sistema.
