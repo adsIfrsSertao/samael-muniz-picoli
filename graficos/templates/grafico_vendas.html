@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load widget_tweaks %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/formulario.css' %}">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="{% static 'css/vendas/selects.css' %}">
+{% endblock css %}
+
+{% block conteudo %}
+
+<div class="container">
+    <div class="top-container">
+        <a href="{% url 'vendas:lista_vendas' %}" class="btn btn-secondary back-btn">
+            Voltar
+        </a>
+    </div>
+
+    <form id="form-filtros">
+        {{ form.as_p }}
+        <button type="submit">Gerar Gráfico</button>
+    </form>
+    <canvas id="grafico"></canvas>
+
+</div>
+
+{% endblock conteudo %}
+
+{% block js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.getElementById('form-filtros').onsubmit = async function(event) {
+        event.preventDefault();
+        
+        // Cria os parâmetros de consulta a partir do formulário
+        const params = new URLSearchParams(new FormData(this));
+        
+        // Faz a requisição GET com os parâmetros de consulta
+        const response = await fetch(`?${params}`);
+        const dados = await response.json();
+        gerarGrafico(dados);
+    };
+
+    let meuGrafico;  // Variável para armazenar a referência do gráfico
+
+    async function gerarGrafico(dados) {
+        const ctx = document.getElementById('grafico').getContext('2d');
+
+        // Verifica se há dados
+        if (dados.length === 0) {
+            console.warn("Nenhum dado encontrado para exibir no gráfico.");
+            return;  // Não tenta desenhar se não houver dados
+        }
+
+        // Determina as labels e os totais com base no formato dos dados
+        let labels;
+        let totais;
+
+        if (dados[0].cliente__nome) { // Vendedor e ano
+            labels = dados.map(d => d.cliente__nome); // Nomes dos clientes
+            totais = dados.map(d => d.total); // Totais correspondentes
+        } else if (dados[0].produto__produto) { // Vendedor e cliente
+            labels = dados.map(d => d.produto__produto); // Nomes dos produtos
+            totais = dados.map(d => d.total); // Totais correspondentes
+        } else if (dados[0].data_da_venda__year) { // Apenas vendedor
+            labels = dados.map(d => d.data_da_venda__year); // Anos
+            totais = dados.map(d => d.total); // Totais correspondentes
+        }
+
+        // Verifica se já existe o gráfico e o destrói
+        if (meuGrafico) {
+            meuGrafico.destroy();
+        }
+
+        const tipoGrafico = document.querySelector('select[name="tipo_grafico"]');
+        const tipo = tipoGrafico.value === 'quantidade' ? 'Quantidade Total' : 'Valor Monetário';
+
+        meuGrafico = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: tipo,
+                    data: totais,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
+</script>
+{% endblock js %}

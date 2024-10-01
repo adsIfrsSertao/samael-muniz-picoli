@@ -55,4 +55,5 @@ urlpatterns = [
     path('vendas/', include('vendas.urls')),
     path('usuarios/', include('usuarios.urls')),
     path('logout/', LogoutView.as_view(), name='logout'),
+    path('graficos/', include('graficos.urls')),
 ]
