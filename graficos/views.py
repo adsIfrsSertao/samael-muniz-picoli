@@ -1,6 +1,3 @@
-import matplotlib.pyplot as plt
-import io
-import urllib, base64
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.db.models import Sum
