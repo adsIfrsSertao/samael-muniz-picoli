@@ -21,11 +21,11 @@
         {% endfor %}
     </div>
 
-    <div class="row" style="margin-top: 80px;">
+    <div class="row margem-topo">
         <div class="col-sm-6">
             <form method="GET" action="{% url 'produtos:lista_produtos' %}" id="search-form" class="form-inline">
-                <input type="text" name="produto" class="form-control" style="margin-right: 10px;" placeholder="Procurar por Produto" value="{{ request.GET.produto }}">
-                <button type="submit" class="btn btn-primary">Buscar</button>
+                <input type="text" name="produto" class="form-control fonte margem-direita" placeholder="Procurar por Produto" value="{{ request.GET.produto }}">
+                <button type="submit" class="btn btn-primary fonte">Buscar</button>
             </form>
         </div>
     </div>
@@ -34,7 +34,7 @@
         <h2>Lista de Produtos
             <span class="pull-right">
                 <a href="{% url 'produtos:adicionar_produto' %}">
-                    <button type="button" class="btn btn-success">
+                    <button type="button" class="btn btn-success fonte">
                         <span class="fa fa-plus"></span> Adicionar
                     </button>
                 </a>
@@ -45,19 +45,19 @@
         <table class="table table-striped table-hover mt-3" id="produtos-table">
             <thead>
                 <tr>
-                    <th>Produto</th>
-                    <th>Código</th>
-                    <th>Ações</th>
+                    <th class="fonte">Produto</th>
+                    <th class="fonte">Código</th>
+                    <th class="fonte">Ações</th>
                 </tr>
             </thead>
             <tbody id="list">
                 {% for produto in produtos %}
                 <tr>
-                    <td><a href="{% url 'produtos:detalhe_produto' produto.pk %}">{{ produto.produto }}</a></td>
-                    <td>{% if produto.codigo %}{{ produto.codigo }}{% else %}<i>Sem código</i>{% endif %}</td>
+                    <td class="fonte-item"><a href="{% url 'produtos:detalhe_produto' produto.pk %}">{{ produto.produto }}</a></td>
+                    <td class="fonte-item">{% if produto.codigo %}{{ produto.codigo }}{% else %}<i>Sem código</i>{% endif %}</td>
                     <td>
-                        <a href="{% url 'produtos:editar_produto' produto.pk %}" class="btn btn-primary btn-sm">Editar</a>
-                        <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal" data-url="{% url 'produtos:deletar_produto' produto.pk %}">Apagar</button>
+                        <a href="{% url 'produtos:editar_produto' produto.pk %}" class="btn btn-primary btn-sm fonte-botao"><span class="fa fa-pencil"></span> Editar</a>
+                        <button class="btn btn-danger btn-sm fonte-botao" data-toggle="modal" data-target="#deleteModal" data-url="{% url 'produtos:deletar_produto' produto.pk %}"><span class="fa fa-trash"></span> Apagar</button>
                     </td>
                 </tr>
                 {% endfor %}

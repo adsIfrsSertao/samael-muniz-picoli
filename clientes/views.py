@@ -23,7 +23,7 @@ class ClientesList(LoginRequiredMixin, ListView):
 
     model = Cliente
     template_name = 'lista_cliente.html'
-    paginate_by = 3
+    paginate_by = 10
     context_object_name = 'clientes'
 
     def get_queryset(self):

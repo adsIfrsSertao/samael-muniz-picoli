@@ -43,7 +43,7 @@ class VendedoresList(SuperAdminRequiredMixin, LoginRequiredMixin, ListView):
 
     model = Vendedor
     template_name = 'lista_vendedor.html'
-    paginate_by = 3
+    paginate_by = 10
     context_object_name = 'vendedores'
 
     def get_queryset(self):

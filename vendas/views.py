@@ -23,7 +23,7 @@ class VendaList(LoginRequiredMixin, ListView):
 
     model = Venda
     template_name = 'lista_vendas.html'
-    paginate_by = 3
+    paginate_by = 15
     context_object_name = 'vendas'
 
     def get_queryset(self):

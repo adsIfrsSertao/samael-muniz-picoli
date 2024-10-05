@@ -31,6 +31,7 @@ def gerar_grafico(request):
             print('selecionou ano')
             vendas = vendas.filter(data_da_venda__year=ano)
         
+        # Agrupando os resultados para Vendedor
         if vendedor and not cliente and not ano:
             resultados = (
                 vendas
@@ -50,6 +51,7 @@ def gerar_grafico(request):
                 .order_by('data_da_venda__year', 'produto__produto')  # Ordena por ano e produto
             )
 
+        # Agrupando os resultados para Vendedor e Ano
         elif vendedor and ano:
             resultados = (
                 vendas
@@ -59,11 +61,12 @@ def gerar_grafico(request):
                 )
                 .order_by('cliente__nome')  # Ordena por nome do cliente
             )
-
-
-        # Convertendo os resultados em uma lista de dicionários
-        dados_grafico = list(resultados)
-        print(dados_grafico)  # Adicione esta linha para depuração
-        return JsonResponse(dados_grafico, safe=False)
+        try:
+            # Convertendo os resultados em uma lista de dicionários
+            dados_grafico = list(resultados)
+            print(dados_grafico)  # Adicione esta linha para depuração
+            return JsonResponse(dados_grafico, safe=False)
+        except UnboundLocalError:
+            ...
 
     return render(request, 'grafico_vendas.html', {'form': form})
