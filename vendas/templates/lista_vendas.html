@@ -24,14 +24,14 @@
     <div class="row margem-topo">
         <div class="col-sm-12">
             <form method="GET" action="{% url 'vendas:lista_vendas' %}" id="search-form" class="form-inline">
-                <input type="text" name="cliente" class="form-control fonte margem-direita" placeholder="Procurar por Cliente" value="{{ request.GET.cliente }}"> E/Ou 
-                <input type="text" name="vendedor" class="form-control fonte margem-direita margem-esquerda" placeholder="Procurar por Vendedor" value="{{ request.GET.vendedor }}">
-                <button type="submit" class="btn btn-primary fonte">Buscar</button>
+                    <input type="text" name="cliente" class="form-control fonte margem-direita" placeholder="Procurar por Cliente" value="{{ request.GET.cliente }}"> E/Ou
+                    <input type="text" name="vendedor" class="form-control fonte margem-direita margem-esquerda" placeholder="Procurar por Vendedor" value="{{ request.GET.vendedor }}">
+                <button type="submit" class="btn btn-primary fonte">Buscar <i class="fa fa-search"></i></button>
             </form>
         </div>
     </div>
     <div class="page-header mt-3">
-        <h2>Lista de Vendas
+        <h2>Lista de Vendas <i class="fa fa-shopping-cart"></i>
             <span class="pull-right">
                 <a href="{% url 'vendas:adicionar_venda' %}">
                     <button type="button" class="btn btn-success fonte">
@@ -63,7 +63,7 @@
                 <tr>
                     <td class="fonte-item"><a href="{% url 'vendas:detalhe_venda' venda.pk %}">{{ venda.pk }}</a></td>
                     <td class="fonte-item">{{ venda.data_da_venda|date:"d/m/Y" }}</td>
-                    <td class="fonte-item">{{ venda.nf }}</td>
+                    <td class="fonte-item">{% if venda.nf %}{{ venda.nf }}{% else %}Sem NF{% endif %}</td>
                     <td class="fonte-item">{{ venda.cliente }}</td>
                     <td class="fonte-item">{{ venda.produto }}</td>
                     <td class="fonte-item">{{ venda.vendedor }}</td>

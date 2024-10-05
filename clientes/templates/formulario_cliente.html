@@ -3,6 +3,12 @@
 
 {% block url %}
     <a href="{% url 'clientes:lista_cliente' %}" class="btn btn-secondary back-btn">
-        Voltar
+        <i class="fa fa-arrow-left"></i> Voltar
     </a>
 {% endblock url %}
+
+{% block botao %}
+    <button type="submit" class="btn btn-success botao-salvar">
+        <i class="fa fa-user"></i> {% if form.instance.pk %}Editar Nome do Cliente{% else %}Cadastrar Novo Cliente{% endif %}
+    </button>
+{% endblock botao %}

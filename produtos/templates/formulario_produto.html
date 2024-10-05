@@ -1,8 +1,66 @@
-{% extends "formulario.html" %}
+{% extends "base.html" %}
 
+{% load static %}
+{% load widget_tweaks %}
 
-{% block url %}
-    <a href="{% url 'produtos:lista_produtos' %}" class="btn btn-secondary back-btn">
-        Voltar
-    </a>
-{% endblock url %}
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/formulario.css' %}">
+{% endblock css %}
+
+{% block conteudo %}
+
+<div class="container">
+    <div class="top-container">
+        <a href="{% url 'produtos:lista_produtos' %}" class="btn btn-secondary back-btn">
+            <i class="fa fa-arrow-left"></i> Voltar
+        </a>
+    </div>
+
+    <div class="form-container">
+        <form method="POST" novalidate>
+            {% csrf_token %}
+            <div class="row">
+
+                <!-- Campo produto -->
+                <div class="col-md-8"> <!-- Aumenta o espaço do produto -->
+                    <div class="form-group">
+                        <label for="id_produto">
+                            <span class="required">Produto </span>
+                        </label>
+                        {% render_field form.produto class="form-control" %}
+                        {% if form.produto.errors %}
+                            <div class="text-danger">
+                                {% for error in form.produto.errors %}
+                                    <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            
+                <!-- Campo código -->
+                <div class="col-md-4"> <!-- Mantém o código menor -->
+                    <div class="form-group">
+                        <label for="id_codigo">Código</label>
+                        {% render_field form.codigo class="form-control" style="width: 250px;" %}
+                        {% if form.codigo.errors %}
+                            <div class="text-danger">
+                                {% for error in form.codigo.errors %}
+                                    <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-success botao-salvar">
+                    {% if form.instance.pk %}<i class="fa fa-edit"></i> Editar Produto{% else %}<i class="fa fa-leaf"></i> Cadastrar Novo Produto{% endif %}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock conteudo %}

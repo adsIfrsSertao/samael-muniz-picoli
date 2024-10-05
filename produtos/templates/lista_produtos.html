@@ -25,13 +25,13 @@
         <div class="col-sm-6">
             <form method="GET" action="{% url 'produtos:lista_produtos' %}" id="search-form" class="form-inline">
                 <input type="text" name="produto" class="form-control fonte margem-direita" placeholder="Procurar por Produto" value="{{ request.GET.produto }}">
-                <button type="submit" class="btn btn-primary fonte">Buscar</button>
+                <button type="submit" class="btn btn-primary fonte">Buscar <i class="fa fa-search"></i></button>
             </form>
         </div>
     </div>
 
     <div class="page-header mt-3">
-        <h2>Lista de Produtos
+        <h2>Lista de Produtos <i class="bi bi-feather"></i>
             <span class="pull-right">
                 <a href="{% url 'produtos:adicionar_produto' %}">
                     <button type="button" class="btn btn-success fonte">

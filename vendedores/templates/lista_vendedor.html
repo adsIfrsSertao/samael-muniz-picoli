@@ -25,14 +25,14 @@
         <div class="col-sm-6">
             <form method="GET" action="{% url 'vendedores:lista_vendedores' %}" id="search-form" class="form-inline">
                 <input type="text" name="vendedor" class="form-control fonte margem-direita" placeholder="Procurar por Vendedor" value="{{ request.GET.vendedor }}">
-                <button type="submit" class="btn btn-primary fonte">Buscar</button>
+                <button type="submit" class="btn btn-primary fonte">Buscar <i class="fa fa-search"></i></button>
             </form>
         </div>
     </div>
 
 
     <div class="page-header mt-3">
-        <h2>Lista de Vendedores
+        <h2>Lista de Vendedores <i class="bi bi-person-fill"></i>
             <span class="pull-right">
                 <a href="{% url 'vendedores:adicionar_vendedor' %}">
                     <button type="button" class="btn btn-success fonte">

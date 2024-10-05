@@ -31,7 +31,11 @@
                     <span class="text-muted">{{ field.errors.0 }}</span>
                 </div>
             {% endfor %}
-            <button type="submit" class="btn btn-success">Cadastrar</button>
+            {% block botao %}
+                <button type="submit" class="btn btn-success botao-salvar">
+                    {% if form.instance.pk %}Editar{% else %}Cadastrar{% endif %}
+                </button>
+            {% endblock botao %}
         </form>
     </div>
 </div>

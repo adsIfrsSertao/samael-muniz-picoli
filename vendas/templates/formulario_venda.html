@@ -5,6 +5,7 @@
 
 {% block css %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/formulario.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/vendas/form_vendas.css' %}">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
 <link rel="stylesheet" type="text/css" href="{% static 'css/vendas/selects.css' %}">
 {% endblock css %}
@@ -14,7 +15,7 @@
 <div class="container">
     <div class="top-container">
         <a href="{% url 'vendas:lista_vendas' %}" class="btn btn-secondary back-btn">
-            Voltar
+            <i class="fa fa-arrow-left"></i>  Voltar
         </a>
     </div>
 
@@ -26,7 +27,9 @@
                 <!-- Campo cliente -->
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label for="id_cliente">{{ form.cliente.label }}</label>
+                        <label for="id_cliente">
+                            <span class="required">{{ form.cliente.label }} </span>
+                        </label>
                         {% render_field form.cliente class="form-control select2" %}
                         {% if form.cliente.errors %}
                             <div class="text-danger">
@@ -41,7 +44,7 @@
                 <!-- Campo vendedor -->
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label for="id_vendedor">{{ form.vendedor.label }}</label>
+                        <label for="id_vendedor"><span class="required">{{ form.vendedor.label }} </span></label>
                         {% render_field form.vendedor class="form-control select2" %}
                         {% if form.vendedor.errors %}
                             <div class="text-danger">
@@ -56,7 +59,7 @@
                 <!-- Campo produto -->
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label for="id_produto">{{ form.produto.label }}</label>
+                        <label for="id_produto"><span class="required">{{ form.produto.label }} </span></label>
                         {% render_field form.produto class="form-control select2" %}
                         {% if form.produto.errors %}
                             <div class="text-danger">
@@ -74,7 +77,7 @@
                 <!-- Campo Data da Venda, NF e Unidade -->
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label for="id_data_venda">Data da Venda</label>
+                        <label for="id_data_venda"><span class="required">Data da Venda </span></label>
                         <input type="date" id="id_data_venda" class="form-control" name="data_da_venda" 
                                value="{{ form.data_da_venda.value|date:"Y-m-d" }}" required>
                         {% for error in form.data_da_venda.errors %}
@@ -95,7 +98,7 @@
 
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label for="id_unidade">{{ form.unidade.label }}</label>
+                        <label for="id_unidade"><span class="required">{{ form.unidade.label }} </span></label>
                         {% render_field form.unidade class="form-control" %}
                         {% for error in form.unidade.errors %}
                             <span class="text-danger">{{ error }}</span>
@@ -107,7 +110,7 @@
                 <!-- Campos de quantidade, valor unitário e valor total -->
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label for="quantidade">Quantidade</label>
+                        <label for="quantidade"><span class="required">Quantidade </span></label>
                         <input type="number" id="quantidade" class="form-control" name="quantidade" value="{{ venda.quantidade }}" oninput="calcularTotal()" min="0.1" required>
                         {% for error in form.quantidade.errors %}
                             <span class="text-danger">{{ error }}</span>
@@ -117,7 +120,7 @@
                 
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label for="valor_unitario">Valor Unitário</label>
+                        <label for="valor_unitario"><span class="required">Valor Unitário </span></label>
                         <input type="number" id="valor_unitario" class="form-control" name="valor_unitario" value="{{ venda.valor_unitario }}" oninput="calcularTotal()" min="0.1" required>
                         {% for error in form.valor_unitario.errors %}
                             <span class="text-danger">{{ error }}</span>
@@ -134,7 +137,9 @@
             </div>
 
             <div class="text-center">
-                <button type="submit" class="btn btn-success" style="margin-bottom: 40px;">Cadastrar</button>
+                <button type="submit" class="btn btn-success botao-salvar">
+                    {% if form.instance.pk %}<i class="fa fa-edit"></i> Editar Venda{% else %}<i class="fa fa-shopping-cart"></i> Cadastrar Nova Venda{% endif %}
+                </button>
             </div>
         </form>
     </div>
