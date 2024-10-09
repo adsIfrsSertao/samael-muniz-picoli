@@ -10,7 +10,7 @@
 {% block conteudo %}
 <div class="container">
     <div class="form-container">
-        <h2>Cadastrar Usuário</h2>
+        <h2>Cadastrar</h2>
         <form method="POST" novalidate>
             {% csrf_token %}
             {% for field in form.visible_fields %}
@@ -26,7 +26,7 @@
                     <span class="text-muted">{{ field.errors.0 }}</span>
                 </div>
             {% endfor %}
-            <button type="submit" class="btn btn-success">Entrar</button>
+            <button type="submit" class="btn btn-success">Cadastrar Usuário</button>
         </form>
     </div>
 </div>

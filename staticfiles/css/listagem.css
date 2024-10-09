@@ -28,3 +28,31 @@
 .container-paginacao {
     margin-top: 10px;
 }
+
+.fonte {
+    font-size: 22px;
+}
+
+.margem-topo {
+    margin-top: 80px;
+}
+
+.margem-direita {
+    margin-right: 10px;
+}
+
+.margem-esquerda {
+    margin-left: 10px;
+}
+
+td.fonte-item {
+    font-size: 20px !important;
+}
+
+.fonte-botao {
+    font-size: 16px !important;
+}
+
+h2 {
+    font-size: 40px;
+}

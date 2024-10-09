@@ -61,7 +61,7 @@
             <tbody id="list">
                 {% for venda in vendas %}
                 <tr>
-                    <td class="fonte-item"><a href="{% url 'vendas:detalhe_venda' venda.pk %}">{{ venda.pk }}</a></td>
+                    <td class="fonte-item"><a id="info" href="{% url 'vendas:detalhe_venda' venda.pk %}">{{ venda.pk }}</a></td>
                     <td class="fonte-item">{{ venda.data_da_venda|date:"d/m/Y" }}</td>
                     <td class="fonte-item">{% if venda.nf %}{{ venda.nf }}{% else %}Sem NF{% endif %}</td>
                     <td class="fonte-item">{{ venda.cliente }}</td>

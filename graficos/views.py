@@ -49,7 +49,7 @@ def gerar_grafico(request):
             )
 
         # Agrupando os resultados para Vendedor e Ano
-        elif vendedor and ano:
+        elif vendedor and ano and not cliente:
             resultados = (
                 vendas
                 .values('cliente__nome')  # Agrupa por cliente

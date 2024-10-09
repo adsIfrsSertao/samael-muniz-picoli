@@ -4,6 +4,7 @@
     justify-content: space-between;
     align-items: center;
     padding-top: 20px;
+    margin-top: 30px;
 }
 
 /* Centraliza o conteúdo principal (formulário) */
@@ -16,16 +17,24 @@
 
 /* Reduz o tamanho dos campos de input */
 .form-control {
-    width: 80%;
+    width: 600px; /* Para ocupar a largura total da coluna */
+    font-size: 22px;
+    height: 50px;
 }
 
 /* Aumenta o tamanho da fonte das labels */
 label {
-    font-size: 1.2rem;
+    font-size: 22px;
     font-weight: bold;
 }
 
 /* Estilo para o botão de voltar */
 .back-btn {
     margin-left: 20px;
+    font-size: 22px;
+}
+
+.botao-salvar {
+    margin-bottom: 40px; 
+    font-size: 20px;
 }

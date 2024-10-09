@@ -1,0 +1,4 @@
+/* Reduz o tamanho dos campos de input */
+.form-control {
+    width: 80%;
+}

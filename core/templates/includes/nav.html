@@ -1,22 +1,108 @@
 <style>
-    /* Aumenta a altura da navbar */
+    /* Ajusta a altura da navbar */
     .navbar {
-        padding-top: 1.5rem; /* Ajuste conforme necessário */
-        padding-bottom: 1.5rem; /* Ajuste conforme necessário */
+        padding-top: 2.5rem;
+        padding-bottom: 1.5rem;
+        background-color: #e97b0d; 
+    }
+
+    /* Estilo para todos os links da navbar */
+    .navbar .navbar-brand, .navbar .nav-link {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: rgb(100, 98, 98); 
+    }
+
+    /* Estilo para o item ativo */
+    .navbar .nav-item.active .nav-link {
+        color: #fff !important; 
+    }
+
+    /* Estilo para o título da navbar */
+    #titulo-navbar {
+        color: rgb(0, 0, 0);
+        margin-right: 80px;
+    }
+
+    /* Ajusta o espaçamento horizontal entre itens */
+    .navbar .nav-item {
+        margin-right: 20px; 
+        margin-left: 20px;
+    }
+
+    /* Estilo para a imagem ao lado do texto na marca */
+    .navbar-brand img {
+        height: 50px; 
+        margin-right: 5px;
+    }
+
+    /* Estilo para dropdown */
+    .navbar .dropdown-menu {
+        background-color: #ff7f00; 
+        border: none;
+    }
+
+    /* Texto branco no dropdown */
+    .navbar .dropdown-menu .dropdown-item {
+        color: #fff; 
     }
 
     /* Ajusta a margem dos elementos abaixo da navbar */
     body {
-        padding-top: 0.8rem; /* Deve ser maior que a altura da navbar */
+        padding-top: 60px; 
     }
 
-    .navbar-brand, .nav-link {
-        font-size: 28px; /* Ajuste conforme necessário */
+    /* Responsividade para dispositivos móveis */
+    /* Responsividade para dispositivos móveis */
+    @media (max-width: 767px) {
+        .navbar .navbar-brand {
+            font-size: 18px;
+        }
+        .navbar .nav-link {
+            font-size: 16px;
+        }
+        .navbar .nav-item {
+            margin-right: 10px; 
+            margin-left: 10px;
+        }
+
+        /* Estilo para o botão de alternância */
+        .navbar-toggler {
+            border-color: rgba(255, 255, 255, 0.5); /* Altera a cor da borda */
+        }
+
+        .navbar-toggler-icon {
+            background-image: none; /* Remove a imagem padrão */
+            display: block; /* Garante que o ícone apareça */
+        }
+
+        .navbar-toggler:before {
+            content: ""; /* Cria um ícone de "hamburger" personalizado */
+            display: block;
+            width: 30px; /* Largura do ícone */
+            height: 3px; /* Altura da barra */
+            background-color: rgb(0, 0, 0); /* Cor da barra */
+            margin: 6px 0; /* Espaçamento entre as barras */
+        }
+
+        .navbar-toggler:after {
+            content: ""; /* Cria uma segunda barra */
+            display: block;
+            width: 30px; /* Largura do ícone */
+            height: 3px; /* Altura da barra */
+            background-color: rgb(0, 0, 0); /* Cor da barra */
+            margin: 6px 0; /* Espaçamento entre as barras */
+        }
     }
 </style>
 
-<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-    <a class="navbar-brand" href="#">Evolução Agrícola LTDA</a>
+{% load static %}
+
+<nav class="navbar navbar-expand-md fixed-top">
+    <a class="navbar-brand" id="titulo-navbar" href="#">
+        <img src="{% static 'img/imagem_evolucao.png' %}" alt="Logo">
+        Evolução Agrícola LTDA
+    </a>
 
     <button class="navbar-toggler" type="button" data-toggle="collapse"
     data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault"
@@ -26,49 +112,36 @@
 
     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="{% url 'core:index' %}">Home 
-                <span class="sr-only">(current)</span></a>
+            <li class="nav-item {% if 'core' in request.resolver_match.app_name %}active{% endif %}">
+                <a class="nav-link" href="{% url 'core:index' %}">Home</a>
             </li>
-            <li class="nav-item dropdown">
-                
-                <a class="nav-link dropdown-toggle" href="#" id="dropdown01"
-                data-toggle="dropdown" aria-haspopup="true" 
-                aria-expanded="false">Vendas</a>
-
-                <div class="dropdown-menu" aria-labelledby="dropdown01">
-                    <a class="dropdown-item" href="{% url 'vendas:lista_vendas' %}">Lista de Vendas</a>
-                    <a class="dropdown-item" href="">Importar CSV</a>
-                    <a class="dropdown-item" href="">Exportar CSV</a>
-                    <a class="dropdown-item" href="">Importar Excel</a>
-                    <a class="dropdown-item" href="">Exportar Excel</a>
-                </div>
+            
+            <li class="nav-item {% if 'vendas' in request.resolver_match.app_name %}active{% endif %}">
+                <a class="nav-link" href="{% url 'vendas:lista_vendas' %}">Vendas</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'produtos:lista_produtos' %}">Produtos
-                <span class="sr-only"></span></a>
-            </li>  
+            
+            <li class="nav-item {% if 'produtos' in request.resolver_match.app_name %}active{% endif %}">
+                <a class="nav-link" href="{% url 'produtos:lista_produtos' %}">Produtos</a>
+            </li>
+            
             {% if user.is_superuser %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'vendedores:lista_vendedores' %}">Vendedores 
-                    <span class="sr-only"></span></a>
+                <li class="nav-item {% if 'vendedores' in request.resolver_match.app_name %}active{% endif %}">
+                    <a class="nav-link" href="{% url 'vendedores:lista_vendedores' %}">Vendedores</a>
                 </li>
             {% endif %}
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'clientes:lista_cliente' %}">Clientes 
-                <span class="sr-only"></span></a>
+            <li class="nav-item {% if 'clientes' in request.resolver_match.app_name %}active{% endif %}">
+                <a class="nav-link" href="{% url 'clientes:lista_cliente' %}">Clientes</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'core:index' %}">Gráficos 
-                <span class="sr-only"></span></a>
+            
+            <li class="nav-item {% if 'graficos' in request.resolver_match.app_name %}active{% endif %}">
+                <a class="nav-link" href="{% url 'graficos:gerar_grafico' %}">Gráficos</a>
             </li>
-
             
         </ul>
         {% if user.is_superuser %}
             <ul class="navbar-nav px-3">
-                <li class="nav-item text-nowrap">
-                    <a href="{% url 'usuarios:registrar' %}" class="nav-link">Registrar</a>
+                <li class="nav-item {% if 'usuarios' in request.resolver_match.app_name %}active{% endif %}">
+                    <a href="{% url 'usuarios:registrar' %}" class="nav-link">Registrar Usuário</a>
                 </li>
             </ul>
         {% endif %}

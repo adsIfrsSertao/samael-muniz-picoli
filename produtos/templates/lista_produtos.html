@@ -53,7 +53,7 @@
             <tbody id="list">
                 {% for produto in produtos %}
                 <tr>
-                    <td class="fonte-item"><a href="{% url 'produtos:detalhe_produto' produto.pk %}">{{ produto.produto }}</a></td>
+                    <td class="fonte-item">{{ produto.produto }}</td>
                     <td class="fonte-item">{% if produto.codigo %}{{ produto.codigo }}{% else %}<i>Sem código</i>{% endif %}</td>
                     <td>
                         <a href="{% url 'produtos:editar_produto' produto.pk %}" class="btn btn-primary btn-sm fonte-botao"><span class="fa fa-pencil"></span> Editar</a>

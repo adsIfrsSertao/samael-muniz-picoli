@@ -1,9 +1,9 @@
 .form-group .text-muted {
     color: red;
-    font-size: 14px;
     min-height: 24px; /* Define um espaço fixo para a mensagem de erro */
     display: block;
     margin-top: 5px;
+    font-size: 18px;
 }
 
 
@@ -15,6 +15,7 @@
     width: 100%;
     max-width: 350px;
     box-sizing: border-box;
+    font-size: 20px;
 }
 
 .error-text {
@@ -39,6 +40,7 @@
 .btn-success {
     width: 100%;
     max-width: 350px;
+    font-size: 20px;
 }
 
 html, body {
@@ -63,4 +65,13 @@ html, body {
     padding: 10px;
     margin-bottom: 15px;
     border-radius: 5px;
+}
+
+label {
+    font-size: 25px;
+}
+
+h2 {
+    margin-bottom: 2.5rem; 
+    text-align: center;
 }

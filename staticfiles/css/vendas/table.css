@@ -1,27 +1,43 @@
+ /* Centraliza a tabela na página */
+ #vendasTable {
+    width: 80%; /* Ajusta a largura da tabela */
+    margin: 20px auto; /* Centraliza a tabela horizontalmente */
+    table-layout: auto; /* Permite que as colunas se ajustem automaticamente */
+}
+
+/* Estilo das células da tabela */
+.table th, .table td {
+    padding: 15px; /* Aumenta o espaçamento das células */
+    font-size: 18px; /* Tamanho da fonte */
+}
+
+/* Trunca nomes com mais de 10 caracteres */
+.table td {
+    max-width: 220px; /* Largura máxima para truncar texto */
+    overflow: hidden; /* Esconde texto que excede o limite */
+    text-overflow: ellipsis; /* Adiciona "..." para texto truncado */
+    white-space: nowrap; /* Impede quebra de linha */
+}
+
+/* Estilo da coluna de ações */
+.actions-col {
+    width: 150px; /* Largura fixa para a coluna de ações */
+    justify-content: center;
+    align-items: center;
+}
+
 .table-container {
+    width: 100%;
     display: flex;
     justify-content: center; 
-    width: 100%; 
-    margin: 20px 0;
+    margin: 0.2rem;
 }
 
-.table {
-    width: 80%; 
-    table-layout: auto; 
-}
 
-.table th, .table td {
-    white-space: nowrap;
-    overflow: visible;
-    padding: 15px;
-}
 
-.table td {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 180px;
-    padding: 15px;
+/* Botões na tabela */
+.btn {
+    min-width: 80px; /* Define um tamanho mínimo para os botões */
 }
 
 .search-container {

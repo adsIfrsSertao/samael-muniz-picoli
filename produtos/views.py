@@ -46,24 +46,6 @@ class ProdutoList(LoginRequiredMixin, ListView):
         return queryset
 
 
-@login_required(login_url='usuarios/login/')
-def detalhe_produto(request, pk):
-    """
-    View para exibir os detalhes de um produto específico.
-
-    Args:
-        request (HttpRequest): O objeto de solicitação HTTP.
-        pk (int): A chave primária do produto a ser exibido.
-
-    Returns:
-        HttpResponse: A resposta HTTP com o template
-        `detalhe_produto.html` renderizado.
-    """
-    nome_template = 'detalhe_produto.html'
-    obj = get_object_or_404(Produto, pk=pk)
-    contexto = {'objeto': obj}
-    return render(request, template_name=nome_template, context=contexto)
-
 
 class CriarProduto(LoginRequiredMixin, CreateView):
     """

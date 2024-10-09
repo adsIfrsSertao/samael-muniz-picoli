@@ -1,18 +1,55 @@
 <!-- Extendendo meu template base.html -->
 {% extends "base.html" %}
 
+{% load static %}
+
 {% block titulo %}
 <title>Evolução Agrícola LTDA</title>
 {% endblock titulo %}
 
+{% block css %}
+<style>
+    /* Estilo para a jumbotron */
+    .jumbotron {
+        background-color: rgba(255, 255, 255, 0.8); /* Fundo semi-transparente */
+        padding: 2rem; /* Espaçamento interno */
+        border-radius: 1rem; /* Bordas arredondadas */
+        position: relative; /* Para permitir o posicionamento sobre a imagem de fundo */
+        z-index: 1; /* Garante que o conteúdo fique acima da imagem */
+        font-size: 1.5rem;
+    }
+
+    /* Estilo para a imagem de fundo */
+    .background-image {
+        background-image: url("{% static 'img/faixada.jpg' %}");
+        background-size: cover; /* Cobre toda a área */
+        background-position: center; /* Centraliza a imagem */
+        background-repeat: no-repeat; /* Não repete a imagem */
+        height: 100vh; /* Altura total da tela */
+        margin: 0; /* Remove margens padrão */
+        position: relative; /* Para permitir posicionamento */
+        z-index: 0; /* Fica atrás da jumbotron */
+    }
+
+    .container {
+        position: relative; /* Permite o posicionamento do conteúdo */
+        z-index: 2; /* Garante que o texto fique acima da jumbotron */
+        padding: 2rem; /* Adiciona espaço ao conteúdo */
+    }
+</style>
+{% endblock css %}
+
 <!-- Sobreescrevendo o block conteudo -->
 {% block conteudo %}
-
 <div class="jumbotron">
     <div class="container">
-        <h1>Bem vindo!</h1>
+        <h1>Bem-vindo!</h1>
         <p>Esse é um sistema para análise e visualização de dados referentes a vendas realizadas na empresa <b>Evolução Agrícola LTDA</b>.</p>
     </div>
 </div>
 
+<div class="background-image">
+    <div class="container">
+    </div>
+</div>
 {% endblock conteudo %}
