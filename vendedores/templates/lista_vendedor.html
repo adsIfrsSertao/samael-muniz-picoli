@@ -45,14 +45,14 @@
         <table class="table table-striped table-hover mt-3" id="lista-table">
             <thead>
                 <tr>
-                    <th class="fonte">Nome</th>
+                    <th class="fonte nome-col">Nome</th>
                     <th class="actions-col fonte">Ações</th>
                 </tr>
             </thead>
             <tbody id="list">
                 {% for vendedor in vendedores %}
                 <tr>
-                    <td class="fonte-item">{{ vendedor.nome }}</td>
+                    <td class="fonte-item nome-col">{{ vendedor.nome }}</td>
                     <td class="actions-col">
                         <a href="{% url 'vendedores:editar_vendedor' vendedor.pk %}" class="btn btn-primary btn-sm fonte-botao"><span class="fa fa-pencil"></span> Editar</a>
                         <button class="btn btn-danger btn-sm fonte-botao" data-toggle="modal" data-target="#deleteModal" data-url="{% url 'vendedores:deletar_vendedor' vendedor.pk %}"><span class="fa fa-trash"></span> Apagar</button>

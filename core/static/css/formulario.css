@@ -1,4 +1,4 @@
-/* Contêiner flex que mantém o botão voltar à esquerda e o formulário centralizado */
+/* Mantém o botão voltar à esquerda e o formulário centralizado */
 .top-container {
     display: flex;
     justify-content: space-between;
@@ -17,7 +17,7 @@
 
 /* Reduz o tamanho dos campos de input */
 .form-control {
-    width: 600px; /* Para ocupar a largura total da coluna */
+    width: 600px; 
     font-size: 22px;
     height: 50px;
 }

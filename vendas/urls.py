@@ -14,4 +14,5 @@ urlpatterns = [
         '<int:pk>/deletar/', views.DeletarVenda.as_view(), name='deletar_venda'
     ),
     path('<int:pk>/json/', views.venda_json, name='venda_json'),
+    path('importar/', views.upload_vendas, name='importar_excel'),
 ]

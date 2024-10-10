@@ -24,3 +24,10 @@
     margin: 0 auto; 
     table-layout: fixed; 
 }
+
+.nome-col {
+    width: 60%; 
+    white-space: nowrap; 
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+}

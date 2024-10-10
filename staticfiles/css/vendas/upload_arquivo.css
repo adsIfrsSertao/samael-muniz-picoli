@@ -1,0 +1,31 @@
+/* alinhamento do form para upload de arquivo */
+.formulario {
+    display:inline-block; 
+    margin-left: 10px;
+}
+
+/* alinhamento do botão para upload de arquivo */
+#upload_excel {
+    display:none;
+}
+
+/* cor de fundo do modal de aguardar upload */
+.modal-content {
+    background-color: white;
+}
+
+/* Fonte do titulo do modal */
+#processingModalLabel {
+    font-weight: bold; 
+    font-size: 40px;
+}
+
+/* Alinhamento do botão de fechar modal */
+.close {
+    display: none;
+}
+
+/* Tamanho da fonte do texto que esta no modal */
+.modal-body {
+    font-size: 20px;
+}

@@ -82,3 +82,13 @@ class VendaForm(forms.ModelForm):
             raise forms.ValidationError(
                 "O valor unitário deve ser pelo menos 0.1.")
         return valor_total
+    
+
+class UploadFileForm(forms.Form):
+    """
+    Formulário para upload de arquivos.
+
+    Este formulário permite que o usuário faça o upload de um arquivo,
+    utilizando um campo de arquivo.
+    """
+    file = forms.FileField()
