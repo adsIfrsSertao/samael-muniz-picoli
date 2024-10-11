@@ -7,22 +7,70 @@
 <link rel="stylesheet" type="text/css" href="{% static 'css/formulario.css' %}">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
 <link rel="stylesheet" type="text/css" href="{% static 'css/vendas/selects.css' %}">
+<link rel="stylesheet" href="{% static 'css/graficos/grafico.css' %}">
 {% endblock css %}
 
 {% block conteudo %}
 
 <div class="container">
-    <div class="top-container">
-        <a href="{% url 'vendas:lista_vendas' %}" class="btn btn-secondary back-btn">
-            Voltar
-        </a>
-    </div>
 
-    <form id="form-filtros">
-        {{ form.as_p }}
-        <button type="submit">Gerar Gráfico</button>
-    </form>
+    <div class="row margem-topo">
+        <h2>Visualizar Gráfico de Vendas <span class="fa fa-bar-chart"></span>   
+        </h2>
+    </div>
+    <div class="row"><h3>Selecione um dos filtros:</h3></div>
+    
+
+    <div class="form-container">
+        <form id="form-filtros">
+            
+            <div class="row mb-3">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="{{ form.vendedor.id_for_label }}">{{ form.vendedor.label }}</label>
+                        {{ form.vendedor|add_class:"select2" }}
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="{{ form.cliente.id_for_label }}">{{ form.cliente.label }}</label>
+                        {{ form.cliente|add_class:"select2" }}
+                    </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label for="{{ form.ano.id_for_label }}">{{ form.ano.label }}</label>
+                        {{ form.ano|add_class:"select2" }}
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="{{ form.tipo_grafico.id_for_label }}">Irá mostrar</label>
+                        {{ form.tipo_grafico|add_class:"select2" }}
+                    </div>
+                </div>
+            </div>
+
+            
+            <div class="row mb-3">
+                <div class="col-md-12 d-flex justify-content-start">
+                    <button type="submit" class="btn btn-primary botao-salvar">Gerar Gráfico</button>
+                </div>
+            </div>
+        </form>
+    </div> 
     <canvas id="grafico"></canvas>
+
+    <div id="mensagem-erro" style="display:none; text-align: center; margin-top: -190px;">
+        <h2 style="font-size: 2rem; color: red;">
+            <span style="font-size: 4rem;">&#128542;</span> 
+            Nenhuma venda encontrada com esse filtro.
+        </h2>
+    </div>
+    
 
 </div>
 
@@ -30,7 +78,22 @@
 
 {% block js %}
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 <script>
+    // Inicializa o Select2 nos campos de seleção
+    $(document).ready(function() {
+        $('.select2').select2({
+            placeholder: 'Selecione uma opção',
+            allowClear: false,
+        });   
+    });
+    
+    $(document).ready(function () {
+        $('.select2').select2();
+    });
+
+
+
     document.getElementById('form-filtros').onsubmit = async function(event) {
         event.preventDefault();
         
@@ -50,8 +113,16 @@
 
         // Verifica se há dados
         if (dados.length === 0) {
+            // Exibe a mensagem de erro
+            document.getElementById("mensagem-erro").style.display = "block";
+
+            // Destroi o gráfico se existir
+            if (meuGrafico) {
+                meuGrafico.destroy();
+            }
+
             console.warn("Nenhum dado encontrado para exibir no gráfico.");
-            return;  // Não tenta desenhar se não houver dados
+            return;  // Não tenta desenhar o gráfico
         }
 
         // Determina as labels e os totais com base no formato dos dados
@@ -59,11 +130,11 @@
         let totais;
 
         if (dados[0].cliente__nome) { // Vendedor e ano
-            labels = dados.map(d => d.cliente__nome); // Nomes dos clientes
-            totais = dados.map(d => d.total); // Totais correspondentes
+            labels = dados.map(d => d.cliente__nome);
+            totais = dados.map(d => d.total);
         } else if (dados[0].produto__produto) { // Vendedor e cliente
-            labels = dados.map(d => d.produto__produto); // Nomes dos produtos
-            totais = dados.map(d => d.total); // Totais correspondentes
+            labels = dados.map(d => d.produto__produto);
+            totais = dados.map(d => d.total);
         } else if (dados[0].data_da_venda__year) { // Apenas vendedor
             labels = dados.map(d => d.data_da_venda__year); // Anos
             totais = dados.map(d => d.total); // Totais correspondentes

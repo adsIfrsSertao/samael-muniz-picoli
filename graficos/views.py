@@ -5,6 +5,24 @@ from vendas.models import Venda
 from .forms import FiltroGraficoForm
 
 def gerar_grafico(request):
+    """
+    Gera um gráfico de vendas com base nos filtros fornecidos pelo usuário.
+
+    Este método processa os filtros de vendedor, cliente, ano e tipo de gráfico
+    enviados via request. Dependendo dos filtros aplicados, ele consulta o banco
+    de dados para agrupar e somar as vendas, retornando os resultados em formato JSON
+    para visualização em um gráfico.
+
+    Args:
+        request: objeto HttpRequest que contém dados da solicitação, incluindo
+        os parâmetros do formulário de filtro.
+
+    Returns:
+        JsonResponse: um objeto JSON contendo os dados agrupados para o gráfico
+        se os filtros forem válidos.
+        Renderização do template 'grafico_vendas.html' se os filtros não forem válidos
+        ou não forem fornecidos.
+    """
     form = FiltroGraficoForm(request.GET or None)
 
     if form.is_valid():
@@ -58,6 +76,47 @@ def gerar_grafico(request):
                 )
                 .order_by('cliente__nome')  # Ordena por nome do cliente
             )
+
+        # Agrupando os resultados para Cliente
+        if cliente and not vendedor and not ano:
+            resultados = (
+                vendas
+                .values('data_da_venda__year')  # Agrupa por ano
+                .annotate(total=Sum('valor_total') if tipo_grafico == 'valor' else Sum('quantidade'))  # Soma com base na seleção
+                .order_by('data_da_venda__year')  # Ordena por ano
+            )
+
+        # Agrupando os resultados para Cliente e Ano
+        elif cliente and ano and not vendedor:
+            resultados = (
+                vendas
+                .values('produto__produto')  # Agrupa por produto
+                .annotate(
+                    total=Sum('quantidade') if tipo_grafico == 'quantidade' else Sum('valor_total')
+                )
+                .order_by('produto__produto')  # Ordena por nome do produto
+            )
+
+        elif ano and not cliente and not vendedor:
+            resultados = (
+                vendas
+                .values('cliente__nome')  # Agrupa por nome do cliente
+                .annotate(
+                    total=Sum('quantidade') if tipo_grafico == 'quantidade' else Sum('valor_total')
+                )
+                .order_by('cliente__nome')  # Ordena por nome do cliente
+            )
+        
+        elif ano and cliente and vendedor:
+            resultados = (
+                vendas
+                .values('produto__produto')  # Agrupa por produto
+                .annotate(
+                    total=Sum('quantidade') if tipo_grafico == 'quantidade' else Sum('valor_total')
+                )
+                .order_by('produto__produto') # Ordena por nome do produto
+            )
+
         try:
             # Convertendo os resultados em uma lista de dicionários
             dados_grafico = list(resultados)
