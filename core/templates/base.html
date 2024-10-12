@@ -31,7 +31,7 @@
     {% endblock css %}
 
     {% block titulo %}
-    <title>Evolução Agrícola LTDA</title>
+    <title>EvoAgrícolaBI</title>
     {% endblock titulo %}
   </head>
   <body>
@@ -45,6 +45,9 @@
         {% endblock conteudo %}
     </div>
 
+    {% block rodape %}
+      {% include "includes/rodape.html" %}
+    {% endblock rodape %}
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>

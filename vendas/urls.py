@@ -15,4 +15,5 @@ urlpatterns = [
     ),
     path('<int:pk>/json/', views.venda_json, name='venda_json'),
     path('importar/', views.upload_vendas, name='importar_excel'),
+    path('download/', views.download_vendas, name='download_vendas'),
 ]

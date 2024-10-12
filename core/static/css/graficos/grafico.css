@@ -13,7 +13,7 @@
 }
 
 .margem-topo {
-    margin-top: 80px;
+    margin-top: 120px;
     margin-bottom: 10px;
 }
 h2 {
@@ -45,4 +45,16 @@ h3 {
 #grafico {
     margin-top: 30px; 
     margin-bottom: 30px;
+}
+
+#mensagem-erro {
+    display:none; 
+    text-align: center; 
+    margin-top: -190px;
+}
+
+.msg-erro {
+    font-size: 2rem; 
+    color: red; 
+    font-weight: bold;
 }

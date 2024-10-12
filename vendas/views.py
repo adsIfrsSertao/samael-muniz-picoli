@@ -1,7 +1,9 @@
+import io
+
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
@@ -280,3 +282,58 @@ def upload_vendas(request):
     else:
         form = UploadFileForm()
     return render(request, 'lista_vendas.html', {'form': form})
+
+
+@login_required(login_url='/usuarios/login/')
+def download_vendas(request):
+    """
+    Gera um arquivo Excel com os dados de vendas e permite o download.
+
+    Esta view consulta as vendas no banco de dados e as exporta para um 
+    arquivo Excel ou CSV, que é retornado como resposta para download.
+
+    Args:
+        request: O objeto HttpRequest que contém informações sobre a requisição.
+
+    Returns:
+        HttpResponse: Um arquivo Excel ou CSV contendo os dados de vendas.
+    """
+    # Captura os filtros da URL
+    vendedor = request.GET.get('vendedor', '')
+    cliente = request.GET.get('cliente', '')
+
+    
+    # Consulta os dados das vendas
+    vendas = Venda.objects.all().values(
+        'data_da_venda', 'nf', 'cliente__nome', 'vendedor__nome', 
+        'produto__codigo', 'produto__produto', 'unidade', 'quantidade', 
+        'valor_unitario', 'valor_total'
+    )
+
+    if vendedor:
+        vendas = vendas.filter(vendedor__nome__icontains=vendedor)
+    
+    if cliente:
+        vendas = vendas.filter(cliente__nome__icontains=cliente)
+    # Cria um DataFrame a partir da QuerySet
+    df = pd.DataFrame(vendas)
+
+    # Renomeia as colunas para algo mais amigável (opcional)
+    df.columns = ['Data da Venda', 'Nota Fiscal', 'Cliente', 'Vendedor', 
+                  'Código do Produto', 'Nome do Produto', 'Unidade', 
+                  'Quantidade', 'Valor Unitário', 'Valor Total']
+
+    # Gera o arquivo Excel em memória (usando o BytesIO)
+    with io.BytesIO() as buffer:
+        with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
+            df.to_excel(writer, index=False, sheet_name='Vendas')
+            writer.close()
+
+        # Cria a resposta HTTP com o conteúdo do arquivo Excel
+        response = HttpResponse(
+            buffer.getvalue(),
+            content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        )
+        response['Content-Disposition'] = 'attachment; filename="vendas.xlsx"'
+    
+    return response

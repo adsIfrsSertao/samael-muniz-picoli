@@ -36,6 +36,9 @@
                 <a href="{% url 'vendas:adicionar_venda' %}" class="btn btn-success fonte">
                     <span class="fa fa-plus"></span> Adicionar
                 </a>
+                <a href="{% url 'vendas:download_vendas' %}?vendedor={{ request.GET.vendedor }}&cliente={{ request.GET.cliente }}" style="color: rgb(255, 255, 255); background-color: rgb(223, 30, 30); border-color: rgb(223, 30, 30);" class="btn btn-info fonte margem-esquerda">
+                    <span class="fa fa-download"></span> Download Vendas
+                </a>
                 {% if user.is_superuser %}
                     <form method="POST" action="{% url 'vendas:importar_excel' %}" enctype="multipart/form-data" class="form-inline formulario">
                         {% csrf_token %}
