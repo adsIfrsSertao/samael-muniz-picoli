@@ -25,6 +25,7 @@ class Cliente(models.Model):
         """
 
         ordering = ('nome',)
+        
 
     def __str__(self):
         """
@@ -34,6 +35,7 @@ class Cliente(models.Model):
             str: O nome do cliente.
         """
         return f'{self.nome}'
+    
 
     def dict_to_json(self):
         """

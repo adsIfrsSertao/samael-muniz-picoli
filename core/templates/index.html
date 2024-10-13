@@ -1,4 +1,3 @@
-<!-- Extendendo meu template base.html -->
 {% extends "base.html" %}
 
 {% load static %}
@@ -11,35 +10,35 @@
 <style>
     /* Estilo para a jumbotron */
     .jumbotron {
-        background-color: rgba(255, 255, 255, 0.8); /* Fundo semi-transparente */
-        padding: 2rem; /* Espaçamento interno */
-        border-radius: 1rem; /* Bordas arredondadas */
-        position: relative; /* Para permitir o posicionamento sobre a imagem de fundo */
-        z-index: 1; /* Garante que o conteúdo fique acima da imagem */
+        background-color: rgba(255, 255, 255, 0.8); 
+        padding: 2rem; 
+        border-radius: 1rem; 
+        position: relative; 
+        z-index: 1; 
         font-size: 1.5rem;
     }
 
     /* Estilo para a imagem de fundo */
     .background-image {
         background-image: url("{% static 'img/faixada.jpg' %}");
-        background-size: cover; /* Cobre toda a área */
-        background-position: center; /* Centraliza a imagem */
-        background-repeat: no-repeat; /* Não repete a imagem */
-        height: 100vh; /* Altura total da tela */
-        margin: 0; /* Remove margens padrão */
-        position: relative; /* Para permitir posicionamento */
-        z-index: 0; /* Fica atrás da jumbotron */
+        background-size: cover; 
+        background-position: center; 
+        background-repeat: no-repeat; 
+        height: 100vh; 
+        margin: 0; 
+        position: relative; 
+        z-index: 0; 
     }
 
     .container {
-        position: relative; /* Permite o posicionamento do conteúdo */
-        z-index: 2; /* Garante que o texto fique acima da jumbotron */
-        padding: 2rem; /* Adiciona espaço ao conteúdo */
+        position: relative; 
+        z-index: 2; 
+        padding: 2rem; 
     }
 </style>
 {% endblock css %}
 
-<!-- Sobreescrevendo o block conteudo -->
+
 {% block conteudo %}
 <div class="jumbotron">
     <div class="container">

@@ -36,6 +36,7 @@ class CadastrarUsuario(UserPassesTestMixin, CreateView):
             caso contrário, retorna False.
         """
         return self.request.user.is_superuser
+    
 
     def handle_no_permission(self):
         """
@@ -48,6 +49,7 @@ class CadastrarUsuario(UserPassesTestMixin, CreateView):
             HttpResponse: Redireciona para a página inicial.
         """
         return redirect('core:index')
+
 
 
 class CustomLoginView(LoginView):
@@ -66,6 +68,7 @@ class CustomLoginView(LoginView):
     template_name = 'login.html'
     success_url = reverse_lazy('core:index')
 
+
     def form_invalid(self, form):
         """
         Manipula a situação em que o formulário de login é inválido.
@@ -82,6 +85,7 @@ class CustomLoginView(LoginView):
         form.errors.clear()
         form.add_error(None, 'Senha ou usuário inválido.')
         return super().form_invalid(form)
+    
 
     def get(self, request, *args, **kwargs):
         """

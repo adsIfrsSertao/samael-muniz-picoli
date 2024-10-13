@@ -18,6 +18,7 @@ class CustomUserCreationForm(UserCreationForm):
     class Meta:
         model = User
         fields = ('username', 'password1', 'password2')
+        
 
     def __init__(self, *args, **kwargs):
         """
@@ -30,6 +31,7 @@ class CustomUserCreationForm(UserCreationForm):
         super(CustomUserCreationForm, self).__init__(*args, **kwargs)
         self.fields['password1'].label = 'Senha'
         self.fields['password2'].label = 'Confirme a Senha'
+
 
     def clean_username(self):
         """

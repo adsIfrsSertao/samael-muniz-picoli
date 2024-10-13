@@ -54,6 +54,7 @@ class Venda(models.Model):
 
         ordering = ('-data_da_venda',)
 
+
     def __str__(self):
         """
         Retorna a representação em string da venda.
@@ -62,6 +63,7 @@ class Venda(models.Model):
             str: O nome do cliente, vendedor e produto.
         """
         return f'{self.cliente} - {self.vendedor} - {self.produto}'
+    
 
     def get_absolute_url(self):
         """
@@ -71,6 +73,7 @@ class Venda(models.Model):
             str: A URL para a visualização de detalhe da venda.
         """
         return reverse_lazy('produto:detalhe_produto', kwargs={'pk': self.pk})
+    
 
     def dict_to_json(self):
         """

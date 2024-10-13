@@ -21,8 +21,8 @@
             {% csrf_token %}
             <div class="row">
 
-                <!-- Campo produto -->
-                <div class="col-md-8"> <!-- Aumenta o espaço do produto -->
+                
+                <div class="col-md-8"> 
                     <div class="form-group">
                         <label for="id_produto">
                             <span class="required">Produto </span>
@@ -38,8 +38,7 @@
                     </div>
                 </div>
             
-                <!-- Campo código -->
-                <div class="col-md-4"> <!-- Mantém o código menor -->
+                <div class="col-md-4"> 
                     <div class="form-group">
                         <label for="id_codigo">Código</label>
                         {% render_field form.codigo class="form-control" style="width: 250px;" %}

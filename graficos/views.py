@@ -4,6 +4,7 @@ from django.db.models import Sum
 from vendas.models import Venda
 from .forms import FiltroGraficoForm
 
+
 def gerar_grafico(request):
     """
     Gera um gráfico de vendas com base nos filtros fornecidos pelo usuário.

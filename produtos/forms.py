@@ -22,4 +22,4 @@ class ProdutoForm(forms.ModelForm):
         """
 
         model = Produto
-        fields = '__all__'  # Inclui todos os campos do modelo Produto
+        fields = '__all__' 
