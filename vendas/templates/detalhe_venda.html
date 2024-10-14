@@ -5,27 +5,28 @@
 {% load widget_tweaks %}
 
 {% block css %}
-<link rel="stylesheet" type="text/css" href="{% static 'css/produtos/detalhe_produto.css' %}">
+<link rel="stylesheet" href="{% static 'css/vendas/detalhe_venda.css' %}">
 {% endblock css %}
+
 
 {% block conteudo %}
 
 <div class="container mt-4">
-    <div class="row mb-3">
-        <!-- Botão de Voltar à esquerda -->
+    <div class="row mb-3 margem">
+        
         <div class="col text-left">
-            <a href="{% url 'vendas:lista_vendas' %}" class="btn btn-light">
-                Voltar
+            <a href="{% url 'vendas:lista_vendas' %}" class="btn btn-secondary back-btn fonte">
+                <i class="fa fa-arrow-left"></i>  Voltar
             </a>
         </div>
 
         <div class="col text-right">
-            <a href="{% url 'vendas:editar_venda' objeto.pk %}">
-                <button type="button" class="btn btn-primary">
+            <a href="{% url 'vendas:editar_venda' venda.pk %}">
+                <button type="button" class="btn btn-primary fonte">
                     <span class="fa fa-pencil"></span> Editar
                 </button>
             </a>
-            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal" data-url="{% url 'vendas:deletar_venda' objeto.pk %}">
+            <button type="button" class="btn btn-danger fonte" data-toggle="modal" data-target="#deleteModal" data-url="{% url 'vendas:deletar_venda' venda.pk %}">
                 <span class="fa fa-trash"></span> Apagar
             </button>
         </div>
@@ -33,10 +34,54 @@
 </div>
 
 <div class="container text-center mt-5">
-    <h1>
-        {{ objeto }}
-    </h1>
-    
+    <h1><i class="fa fa-shopping-cart"></i> Detalhe da Venda:</h1>
+</div>
+
+<div class="container text-center margem-baixo">
+    <div class="row justify-content-center">
+        <div class="col-sm-8">
+            <table class="table detalhe-tabela">
+                <tbody>
+                    <tr>
+                        <th>Data da Venda</th>
+                        <td>{{ venda.data_da_venda|date:"d/m/Y" }}</td>
+                    </tr>
+                    <tr>
+                        <th>NF</th>
+                        <td>{% if venda.nf %}{{ venda.nf }}{% else %}Sem NF{% endif %}</td>
+                    </tr>
+                    <tr>
+                        <th>Cliente</th>
+                        <td>{{ venda.cliente }}</td>
+                    </tr>
+                    <tr>
+                        <th>Produto</th>
+                        <td>{{ venda.produto }}</td>
+                    </tr>
+                    <tr>
+                        <th>Vendedor</th>
+                        <td>{{ venda.vendedor }}</td>
+                    </tr>
+                    <tr>
+                        <th>Unidade</th>
+                        <td>{{ venda.unidade }}</td>
+                    </tr>
+                    <tr>
+                        <th>Quantidade</th>
+                        <td>{{ venda.quantidade }}</td>
+                    </tr>
+                    <tr>
+                        <th>Valor Unitário</th>
+                        <td>R$ {{ venda.valor_unitario }}</td>
+                    </tr>
+                    <tr>
+                        <th>Valor Total</th>
+                        <td>R$ {{ venda.valor_total }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 
 
@@ -45,12 +90,5 @@
 {% endblock conteudo %}
 
 {% block js %}
-<script>
-    $('#deleteModal').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget)
-        var url = button.data('url')
-        var confirmBtn = $('#confirmDeleteBtn')
-        confirmBtn.attr('href', url)
-    });
-</script>
+<script src="{% static 'js/exclusao_item.js' %}"></script
 {% endblock js %}

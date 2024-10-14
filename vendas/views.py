@@ -160,6 +160,25 @@ class DeletarVenda(LoginRequiredMixin, DeleteView):
         return self.post(request, *args, **kwargs)
 
 
+@login_required(login_url='usuarios/login/')
+def detalhe_venda(request, pk):
+    """
+    View para exibir os detalhes de uma venda específica.
+
+    Args:
+        request (HttpRequest): O objeto de solicitação HTTP.
+        pk (int): A chave primária da venda a ser exibido.
+
+    Returns:
+        HttpResponse: A resposta HTTP com o template
+        `detalhe_venda.html` renderizado.
+    """
+    nome_template = 'detalhe_venda.html'
+    venda = get_object_or_404(Venda, pk=pk)
+    contexto = {'venda': venda}
+    return render(request, template_name=nome_template, context=contexto)
+
+
 @login_required(login_url='/usuarios/login/')
 def venda_json(request, pk):
     """

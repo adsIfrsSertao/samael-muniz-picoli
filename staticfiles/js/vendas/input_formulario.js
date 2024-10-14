@@ -1,7 +1,8 @@
-// Leitura do documento
+// Leitura do documento e inicialização dos elementos Select2, além de definir funções de validação e cálculo
+
 $(document).ready(function() {
 
-    // Inicializar select2
+    // Inicializa select2 para os campos cliente, produto e vendedor
     $('#id_cliente').select2();
     $('#id_produto').select2();
     $('#id_vendedor').select2();
@@ -15,6 +16,7 @@ $(document).ready(function() {
     }
 
 
+    // Aplica a verificação de valor positivo e cálculo do total para os campos quantidade, valor unitário e nota fiscal
     $('#quantidade, #valor_unitario, #id_nota_fiscal').on('input', function() {
         positiveValue(this);
         calcularTotal();
@@ -22,11 +24,12 @@ $(document).ready(function() {
 });
 
 
-// Função para calcular o valor total automaticamente
+// Calcula o valor total automaticamente com base na quantidade e no valor unitário
 function calcularTotal() {
     var quantidade = document.getElementById("quantidade").value;
     var valorUnitario = document.getElementById("valor_unitario").value; 
     var valorTotal = quantidade * valorUnitario;
 
+    // Exibe o valor total calculado com 2 casas decimais
     document.getElementById("valor_total").value = valorTotal.toFixed(2);
 }

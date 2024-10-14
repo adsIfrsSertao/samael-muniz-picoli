@@ -1,0 +1,40 @@
+html, body {
+    height: 100%; /* Garante que o body ocupe toda a altura */
+    margin: 0; /* Remove margens padrão */
+}
+
+body {
+    display: flex;
+    flex-direction: column; /* Organiza os filhos em coluna */
+}
+
+.content {
+    flex: 1; /* Faz o conteúdo ocupar o espaço restante */
+    padding: 0.8rem; /* Espaçamento interno */
+    overflow-y: auto; /* Permite rolagem se o conteúdo for grande */
+}
+
+.footer {
+    position: relative; /* Fixa o rodapé na parte inferior do conteúdo */
+    background-color: #e97b0d; /* mesma cor da navbar */
+    padding-top: 0.5rem; /* Diminui o padding superior */
+    padding-bottom: 0rem; /* Diminui o padding inferior */
+    text-align: center;
+    font-size: 0.9rem; /* Ajusta o tamanho do texto para ser menor */
+    color: black; /* Muda a cor do texto para preto */
+    margin-top: auto; /* Faz o rodapé ir para o final */
+    margin-bottom: 0px;
+}
+
+.footer a {
+    color: black; /* Muda a cor do link para preto */
+    text-decoration: none;
+}
+
+.footer a:hover {
+    color: #fff; /* Cor branca ao passar o mouse */
+}
+
+.footer p {
+    margin: 0.5rem 0; /* Espaço reduzido entre os parágrafos */
+}
