@@ -1,4 +1,26 @@
-/* Reduz o tamanho dos campos de input */
+/* Estilo geral para o formulário */
+.form-group {
+    display: flex;
+    flex-direction: column; /* Coloca a label acima do campo */
+}
+
+/* Largura e altura dos campos */
 .form-control {
-    width: 80%;
+    width: 100%; /* Ajusta para 100% da largura do pai */
+    font-size: 18px; /* Tamanho da fonte do campo */
+    height: 50px;
+}
+
+/* Estilo para as labels */
+.form-group label {
+    margin-bottom: 5px; /* Espaçamento entre a label e o campo */
+    font-size: 18px; /* Tamanho da fonte da label */
+    font-weight: bold; /* Negrito para as labels */
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .col-md-8, .col-md-4 {
+        flex: 0 0 100%; /* Em telas menores, cada campo ocupará 100% */
+    }
 }

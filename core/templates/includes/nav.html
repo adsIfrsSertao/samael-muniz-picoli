@@ -21,22 +21,23 @@
             <li class="nav-item {% if 'core' in request.resolver_match.app_name %}active{% endif %}">
                 <a class="nav-link" href="{% url 'core:index' %}">Home</a>
             </li>
-            
-            <li class="nav-item {% if 'vendas' in request.resolver_match.app_name %}active{% endif %}">
-                <a class="nav-link" href="{% url 'vendas:lista_vendas' %}">Vendas</a>
-            </li>
-            
-            <li class="nav-item {% if 'produtos' in request.resolver_match.app_name %}active{% endif %}">
-                <a class="nav-link" href="{% url 'produtos:lista_produtos' %}">Produtos</a>
-            </li>
-            
+
             {% if user.is_superuser %}
                 <li class="nav-item {% if 'vendedores' in request.resolver_match.app_name %}active{% endif %}">
                     <a class="nav-link" href="{% url 'vendedores:lista_vendedores' %}">Vendedores</a>
                 </li>
             {% endif %}
+
             <li class="nav-item {% if 'clientes' in request.resolver_match.app_name %}active{% endif %}">
                 <a class="nav-link" href="{% url 'clientes:lista_cliente' %}">Clientes</a>
+            </li>
+             
+            <li class="nav-item {% if 'produtos' in request.resolver_match.app_name %}active{% endif %}">
+                <a class="nav-link" href="{% url 'produtos:lista_produtos' %}">Produtos</a>
+            </li>
+
+            <li class="nav-item {% if 'vendas' in request.resolver_match.app_name %}active{% endif %}">
+                <a class="nav-link" href="{% url 'vendas:lista_vendas' %}">Vendas</a>
             </li>
             
             <li class="nav-item {% if 'graficos' in request.resolver_match.app_name %}active{% endif %}">

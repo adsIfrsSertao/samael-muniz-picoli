@@ -48,12 +48,12 @@ table th {
 
 
 table tr:nth-child(odd) {
-    background-color: #45b149 !important; 
+    background-color: #faf7a9 !important; 
 }
 
 
 table tr:nth-child(even) {
-    background-color: #5cdd62; 
+    background-color: #faf9bf; 
 }
 
 

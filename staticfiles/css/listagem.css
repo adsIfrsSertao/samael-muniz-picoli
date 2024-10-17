@@ -55,4 +55,13 @@ td.fonte-item {
 
 h2 {
     font-size: 40px;
+    font-weight: bold;
+}
+
+svg {
+    width: 60px; /* Largura do ícone */
+    height: 60px; /* Altura do ícone */
+    vertical-align: middle; /* Alinhamento vertical */
+    fill: none; /* Remove a cor de preenchimento */
+    stroke: #000; /* Cor da borda do ícone */
 }

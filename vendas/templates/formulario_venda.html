@@ -23,9 +23,8 @@
         <form method="POST" novalidate>
             {% csrf_token %}
             <div class="row">
-                
                 <!-- Campo cliente -->
-                <div class="col-md-4">
+                <div class="col-md-8"> <!-- Aumenta para 8 colunas -->
                     <div class="form-group">
                         <label for="id_cliente">
                             <span class="required">{{ form.cliente.label }} </span>
@@ -40,9 +39,23 @@
                         {% endif %}
                     </div>
                 </div>
-                
+            
+                <!-- Campo Data da Venda -->
+                <div class="col-md-4"> <!-- Mantém em 4 colunas -->
+                    <div class="form-group">
+                        <label for="id_data_venda"><span class="required">Data da Venda </span></label>
+                        <input type="date" id="id_data_venda" class="form-control" name="data_da_venda" 
+                               value="{{ form.data_da_venda.value|date:"Y-m-d" }}" required>
+                        {% for error in form.data_da_venda.errors %}
+                            <span class="text-danger">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
                 <!-- Campo vendedor -->
-                <div class="col-md-4">
+                <div class="col-md-8"> <!-- Aumenta para 8 colunas -->
                     <div class="form-group">
                         <label for="id_vendedor"><span class="required">{{ form.vendedor.label }} </span></label>
                         {% render_field form.vendedor class="form-control select2" %}
@@ -55,9 +68,22 @@
                         {% endif %}
                     </div>
                 </div>
-
+            
+                <!-- Campo Nota Fiscal -->
+                <div class="col-md-4"> <!-- Mantém em 4 colunas -->
+                    <div class="form-group">
+                        <label for="id_nota_fiscal">{{ form.nf.label }}</label>
+                        {% render_field form.nf class="form-control" min="0" %}
+                        {% for error in form.nf.errors %}
+                            <span class="text-danger">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
                 <!-- Campo produto -->
-                <div class="col-md-4">
+                <div class="col-md-8"> <!-- Aumenta para 8 colunas -->
                     <div class="form-group">
                         <label for="id_produto"><span class="required">{{ form.produto.label }} </span></label>
                         {% render_field form.produto class="form-control select2" %}
@@ -70,33 +96,9 @@
                         {% endif %}
                     </div>
                 </div>
-
-            </div>
             
-            <div class="row">
-                <!-- Campo Data da Venda, NF e Unidade -->
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label for="id_data_venda"><span class="required">Data da Venda </span></label>
-                        <input type="date" id="id_data_venda" class="form-control" name="data_da_venda" 
-                               value="{{ form.data_da_venda.value|date:"Y-m-d" }}" required>
-                        {% for error in form.data_da_venda.errors %}
-                            <span class="text-danger">{{ error }}</span>
-                        {% endfor %}
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label for="id_nota_fiscal">{{ form.nf.label }}</label>
-                        {% render_field form.nf class="form-control" min="0" %}
-                        {% for error in form.nf.errors %}
-                            <span class="text-danger">{{ error }}</span>
-                        {% endfor %}
-                    </div>
-                </div>
-
-                <div class="col-md-4">
+                <!-- Campo Unidade -->
+                <div class="col-md-4"> <!-- Mantém em 4 colunas -->
                     <div class="form-group">
                         <label for="id_unidade"><span class="required">{{ form.unidade.label }} </span></label>
                         {% render_field form.unidade class="form-control" %}
@@ -105,8 +107,9 @@
                         {% endfor %}
                     </div>
                 </div>
-                
+            </div>
 
+            <div class="row">
                 <!-- Campos de quantidade, valor unitário e valor total -->
                 <div class="col-md-4">
                     <div class="form-group">
