@@ -96,11 +96,34 @@ async function gerarGrafico(dados) {
 
 }
 
-// Função para baixar o gráfico como imagem PNG
+// Função para baixar o gráfico como PDF
 document.getElementById("btn-download").onclick = function() {
     const canvas = document.getElementById('grafico');
-    const link = document.createElement('a');
-    link.href = canvas.toDataURL(); // Converte o gráfico em uma URL de imagem
-    link.download = 'grafico_de_vendas.png';  // Nome do arquivo de download
-    link.click();  // Inicia o download
+
+    // Usar html2canvas para capturar o gráfico
+    html2canvas(canvas).then(function(canvas) {
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF('landscape'); // Cria um novo PDF em modo paisagem
+        const imgWidth = 210; // Largura do PDF em mm (A4)
+        const pageHeight = pdf.internal.pageSize.height; // Altura da página
+        const imgHeight = (canvas.height * imgWidth) / canvas.width; // Calcula a altura da imagem
+
+        let heightLeft = imgHeight;
+
+        // Calcula as posições para centralizar a imagem
+        const x = (pdf.internal.pageSize.width - imgWidth) / 2; // Centraliza horizontalmente
+        const y = (pageHeight - imgHeight) / 2; // Centraliza verticalmente
+
+        // Adiciona a imagem ao PDF, dividindo em páginas se necessário
+        pdf.addImage(imgData, 'PNG', x, y, imgWidth, imgHeight); // Centraliza no meio
+        heightLeft -= pageHeight;
+
+        while (heightLeft >= 0) {
+            pdf.addPage();
+            pdf.addImage(imgData, 'PNG', x, y, imgWidth, imgHeight); // Centraliza no meio
+            heightLeft -= pageHeight;
+        }
+
+        pdf.save('grafico_de_vendas.pdf'); // Nome do arquivo PDF
+    });
 };

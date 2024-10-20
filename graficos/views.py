@@ -64,7 +64,7 @@ def gerar_grafico(request):
                 .annotate(
                     total=Sum('quantidade') if tipo_grafico == 'quantidade' else Sum('valor_total')
                 )
-                .order_by('data_da_venda__year', 'produto__produto')  # Ordena por ano e produto
+                .order_by('-total')  
             )
 
         # Agrupando os resultados para Vendedor e Ano
@@ -75,11 +75,11 @@ def gerar_grafico(request):
                 .annotate(
                     total=Sum('quantidade') if tipo_grafico == 'quantidade' else Sum('valor_total')
                 )
-                .order_by('cliente__nome')  # Ordena por nome do cliente
+                .order_by('-total')  
             )
 
         # Agrupando os resultados para Cliente
-        if cliente and not vendedor and not ano:
+        elif cliente and not vendedor and not ano:
             resultados = (
                 vendas
                 .values('data_da_venda__year')  # Agrupa por ano
@@ -95,7 +95,7 @@ def gerar_grafico(request):
                 .annotate(
                     total=Sum('quantidade') if tipo_grafico == 'quantidade' else Sum('valor_total')
                 )
-                .order_by('produto__produto')  # Ordena por nome do produto
+                .order_by('-total') 
             )
 
         elif ano and not cliente and not vendedor:
@@ -105,7 +105,7 @@ def gerar_grafico(request):
                 .annotate(
                     total=Sum('quantidade') if tipo_grafico == 'quantidade' else Sum('valor_total')
                 )
-                .order_by('cliente__nome')  # Ordena por nome do cliente
+                .order_by('-total')  
             )
         
         elif ano and cliente and vendedor:
@@ -115,7 +115,7 @@ def gerar_grafico(request):
                 .annotate(
                     total=Sum('quantidade') if tipo_grafico == 'quantidade' else Sum('valor_total')
                 )
-                .order_by('produto__produto') # Ordena por nome do produto
+                .order_by('-total') 
             )
 
         try:
