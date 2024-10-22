@@ -77,7 +77,7 @@ async function gerarGrafico(dados) {
             datasets: [{
                 label: tipo,
                 data: totais,
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                backgroundColor: 'rgba(39, 245, 140, 0.48)',
                 borderColor: 'rgba(75, 192, 192, 1)',
                 borderWidth: 1
             }]
