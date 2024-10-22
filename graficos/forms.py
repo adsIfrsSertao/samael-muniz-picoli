@@ -1,7 +1,5 @@
 from datetime import datetime
-
 from django import forms
-
 from clientes.models import Cliente
 from vendedores.models import Vendedor
 
@@ -17,7 +15,8 @@ class FiltroGraficoForm(forms.Form):
         cliente: Campo para selecionar um cliente da lista de clientes disponíveis.
         ano: Campo para selecionar um ano, com opções de 2020 até o ano atual.
         tipo_grafico: Campo para selecionar o tipo de gráfico a ser exibido,
-        que pode ser baseado na quantidade total ou no valor monetário das vendas.
+                      que pode ser baseado na quantidade total ou no valor monetário das vendas.
+        quantidade_opcoes: Campo para selecionar o número de ocorrências a serem exibidas no gráfico.
     """
 
     vendedor = forms.ModelChoiceField(
@@ -43,5 +42,22 @@ class FiltroGraficoForm(forms.Form):
         required=True,
         label="Tipo de Gráfico"
     )
-
-
+    quantidade_opcoes = forms.ChoiceField(
+        choices=[
+            ('all', 'Todos'),
+            ('5', 'Top 5'),
+            ('10', 'Top 10'),
+            ('15', 'Top 15'),
+            ('20', 'Top 20'),
+            ('25', 'Top 25'),
+            ('-5', 'Últimos 5'),
+            ('-10', 'Últimos 10'),
+            ('-15', 'Últimos 15'),
+            ('-20', 'Últimos 20'),
+            ('-25', 'Últimos 25'),
+        ],
+        initial='all',
+        required=False,
+        label="Quantidade de Ocorrências",
+        widget=forms.Select(attrs={'class': 'form-select'})  
+    )

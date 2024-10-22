@@ -16,24 +16,24 @@
 <div class="container">
 
     <div class="row margem-topo">
-        <h2><svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" class="margem-direita" data-name="Layer 1" viewBox="0 0 24 24" width="512" height="512">
-            <path fill="#000000" d="M3,21.976a1,1,0,0,1-1-1V0H0V20.976a3,3,0,0,0,3,3H24v-2Z"/>
-            <rect fill="#000000" x="5" y="12" width="2" height="7"/>
-            <rect fill="#000000" x="10" y="10" width="2" height="9"/>
-            <rect fill="#000000" x="15" y="13" width="2" height="6"/>
-            <rect fill="#000000" x="20" y="9" width="2" height="10"/>
-            <polygon fill="#000000" points="11 4.414 16 9.414 23.707 1.707 22.293 0.293 16 6.586 11 1.586 5.293 7.293 6.707 8.707 11 4.414"/>
-          </svg> Visualizar Gráfico de Vendas
+        <h2>
+            <svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" class="margem-direita" data-name="Layer 1" viewBox="0 0 24 24" width="512" height="512">
+                <path fill="#000000" d="M3,21.976a1,1,0,0,1-1-1V0H0V20.976a3,3,0,0,0,3,3H24v-2Z"/>
+                <rect fill="#000000" x="5" y="12" width="2" height="7"/>
+                <rect fill="#000000" x="10" y="10" width="2" height="9"/>
+                <rect fill="#000000" x="15" y="13" width="2" height="6"/>
+                <rect fill="#000000" x="20" y="9" width="2" height="10"/>
+                <polygon fill="#000000" points="11 4.414 16 9.414 23.707 1.707 22.293 0.293 16 6.586 11 1.586 5.293 7.293 6.707 8.707 11 4.414"/>
+            </svg> Visualizar Gráfico de Vendas
         </h2>
     </div>
     <div class="row"><h3>Selecione um ou mais filtros:</h3></div>
     
-
     <div class="form-container">
         <form id="form-filtros">
             
             <div class="row mb-3">
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <div class="form-group">
                         <label for="{{ form.vendedor.id_for_label }}">{{ form.vendedor.label }}</label>
                         {{ form.vendedor|add_class:"select2" }}
@@ -53,16 +53,24 @@
                         {{ form.ano|add_class:"select2" }}
                     </div>
                 </div>
+            </div>
 
+            <div class="row mb-3">
                 <div class="col-md-3">
                     <div class="form-group">
                         <label for="{{ form.tipo_grafico.id_for_label }}">Mostrar</label>
                         {{ form.tipo_grafico|add_class:"select2" }}
                     </div>
                 </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="{{ form.quantidade_opcoes.id_for_label }}">{{ form.quantidade_opcoes.label }}</label>
+                        {{ form.quantidade_opcoes|add_class:"select2" }}
+                    </div>
+                </div>
             </div>
 
-            
             <div class="row mb-3">
                 <div class="col-md-12 d-flex justify-content-start">
                     <button type="submit" class="btn btn-primary botao-salvar">Gerar Gráfico</button>
@@ -81,7 +89,6 @@
     <div id="download-container" style="display: none; margin-bottom: 30px;">
         <button id="btn-download" class="btn btn-secondary botao-salvar"><span class="fa fa-download"></span> Download do Gráfico</button>
     </div>
-
 
 </div>
 
