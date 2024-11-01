@@ -14,7 +14,8 @@ class SuperAdminRequiredMixin(UserPassesTestMixin):
     """
     Mixin que exige que o usuário seja superadministrador.
 
-    Este mixin eleva um erro 404 se o usuário autenticado não for um superadministrador.
+    Este mixin eleva um erro 404 se o usuário autenticado não for um
+    superadministrador.
     """
 
     def test_func(self):
@@ -27,7 +28,7 @@ class SuperAdminRequiredMixin(UserPassesTestMixin):
         """
 
         if not self.request.user.is_superuser:
-            raise Http404("Página não encontrada")
+            raise Http404('Página não encontrada')
         return True
 
 
@@ -51,9 +52,9 @@ class VendedoresList(SuperAdminRequiredMixin, LoginRequiredMixin, ListView):
         Retorna o conjunto de consultas para a listagem de vendedores.
 
         O método filtra os vendedores com base no parâmetro de busca 'nome'
-        fornecido na requisição GET. Se o parâmetro estiver presente e não for vazio,
-        o queryset será filtrado para incluir apenas os vendedores cujo nome contém
-        o valor fornecido.
+        fornecido na requisição GET. Se o parâmetro estiver presente e não
+        for vazio, o queryset será filtrado para incluir apenas os vendedores
+        cujo nome contém o valor fornecido.
 
         Returns:
             QuerySet: O conjunto de vendedores filtrado.

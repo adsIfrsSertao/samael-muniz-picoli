@@ -12,7 +12,6 @@ class Vendedor(models.Model):
     """
 
     nome = models.CharField(max_length=100, unique=True, null=False)
-    
 
     class Meta:
         """
@@ -27,7 +26,6 @@ class Vendedor(models.Model):
 
         ordering = ('nome',)
 
-
     def __str__(self):
         """
         Retorna a representação em string do Vendedor.
@@ -36,7 +34,6 @@ class Vendedor(models.Model):
             str: O nome do Vendedor.
         """
         return f'{self.nome}'
-    
 
     def dict_to_json(self):
         """

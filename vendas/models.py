@@ -21,8 +21,8 @@ class Venda(models.Model):
         unidade (str): Tipo da unidade do produto comercializado,
         se litro, balde, saca, kg...
 
-        valor_unitario (Decimal): Preço unitário do produto com até 11 dígitos antes do
-        ponto decimal e 2 dígitos após o ponto decimal.
+        valor_unitario (Decimal): Preço unitário do produto com até 11
+        dígitos antes do ponto decimal e 2 dígitos após o ponto decimal.
 
         valor_total (Decimal): Preço total da venda com até 11 dígitos antes do
         ponto decimal e 2 dígitos após o ponto decimal.
@@ -54,7 +54,6 @@ class Venda(models.Model):
 
         ordering = ('-data_da_venda',)
 
-
     def __str__(self):
         """
         Retorna a representação em string da venda.
@@ -63,7 +62,6 @@ class Venda(models.Model):
             str: O nome do cliente, vendedor e produto.
         """
         return f'{self.cliente} - {self.vendedor} - {self.produto}'
-    
 
     def get_absolute_url(self):
         """
@@ -73,7 +71,6 @@ class Venda(models.Model):
             str: A URL para a visualização de detalhe da venda.
         """
         return reverse_lazy('produto:detalhe_produto', kwargs={'pk': self.pk})
-    
 
     def dict_to_json(self):
         """

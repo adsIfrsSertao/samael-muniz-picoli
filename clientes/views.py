@@ -31,9 +31,9 @@ class ClientesList(LoginRequiredMixin, ListView):
         Retorna o conjunto de consultas para a listagem de clientes.
 
         O método filtra os clientes com base no parâmetro de busca 'cliente'
-        fornecido na requisição GET. Se o parâmetro estiver presente e não for vazio,
-        o queryset será filtrado para incluir apenas os clientes cujo nome contém
-        o valor fornecido.
+        fornecido na requisição GET. Se o parâmetro estiver presente e não
+        for vazio, o queryset será filtrado para incluir apenas os clientes
+        cujo nome contém o valor fornecido.
 
         Returns:
             QuerySet: O conjunto de clientes filtrado.

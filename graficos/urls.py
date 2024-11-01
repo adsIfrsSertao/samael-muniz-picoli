@@ -1,4 +1,5 @@
 from django.urls import path
+
 from graficos import views
 
 app_name = 'graficos'

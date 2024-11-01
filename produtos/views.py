@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 
@@ -30,9 +30,9 @@ class ProdutoList(LoginRequiredMixin, ListView):
         Retorna o conjunto de consultas para a listagem de produtos.
 
         O método filtra os produtos com base no parâmetro de busca 'produto'
-        fornecido na requisição GET. Se o parâmetro estiver presente e não for vazio,
-        o queryset será filtrado para incluir apenas os produtos cujo nome contém
-        o valor fornecido.
+        fornecido na requisição GET. Se o parâmetro estiver presente e não
+        for vazio, o queryset será filtrado para incluir apenas os produtos
+        cujo nome contém o valor fornecido.
 
         Returns:
             QuerySet: O conjunto de produtos filtrado.
@@ -44,7 +44,6 @@ class ProdutoList(LoginRequiredMixin, ListView):
             queryset = queryset.filter(produto__icontains=produto)
 
         return queryset
-
 
 
 class CriarProduto(LoginRequiredMixin, CreateView):

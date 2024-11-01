@@ -1,5 +1,6 @@
 import io
 
+import pandas as pd
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -7,15 +8,14 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
-import pandas as pd
 
-from .forms import VendaForm, UploadFileForm
-from .models import Venda
 from clientes.models import Cliente
+from contrib.limpar_arquivo import tratar_dados
 from produtos.models import Produto
 from vendedores.models import Vendedor
 
-from contrib.limpar_arquivo import tratar_dados
+from .forms import UploadFileForm, VendaForm
+from .models import Venda
 
 
 # Create your views here.
@@ -39,9 +39,9 @@ class VendaList(LoginRequiredMixin, ListView):
         Retorna o conjunto de consultas para a listagem de vendas.
 
         O método filtra as vendas com base nos parâmetros de busca 'cliente'
-        e 'vendedor' fornecidos na requisição GET. Se qualquer um dos parâmetros
-        estiver presente e não for vazio, o queryset será filtrado para incluir
-        apenas as vendas correspondentes.
+        e 'vendedor' fornecidos na requisição GET. Se qualquer um dos
+        parâmetros estiver presente e não for vazio, o queryset será filtrado
+        para incluir apenas as vendas correspondentes.
 
         Returns:
             QuerySet: O conjunto de vendas filtrado.
@@ -55,31 +55,6 @@ class VendaList(LoginRequiredMixin, ListView):
             queryset = queryset.filter(vendedor__nome__icontains=vendedor)
 
         return queryset
-
-
-@login_required(login_url='/usuarios/login/')
-def detalhe_venda(request, pk):
-    """
-    View para exibir os detalhes de um Venda específico.
-
-    Args:
-        request (HttpRequest): O objeto de solicitação HTTP.
-        pk (int): A chave primária do Venda a ser exibido.
-
-    Returns:
-        HttpResponse: A resposta HTTP com o template
-        `detalhe_Venda.html` renderizado.
-    """
-    nome_template = 'detalhe_venda.html'
-
-    # Recupera o objeto Venda com a chave primária fornecida
-    obj = get_object_or_404(Venda, pk=pk)
-
-    # Define o contexto a ser passado para o template
-    contexto = {'objeto': obj}
-
-    # Renderiza o template com o contexto
-    return render(request, template_name=nome_template, context=contexto)
 
 
 class CriarVenda(LoginRequiredMixin, CreateView):
@@ -122,10 +97,12 @@ class EditarVenda(LoginRequiredMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         venda = self.object
-        context['venda'].valor_unitario = "{:.2f}".format(
-            venda.valor_unitario).replace(',', '.')
-        context['venda'].valor_total = "{:.2f}".format(
-            venda.valor_total).replace(',', '.')
+        context['venda'].valor_unitario = '{:.2f}'.format(
+            venda.valor_unitario
+        ).replace(',', '.')
+        context['venda'].valor_total = '{:.2f}'.format(
+            venda.valor_total
+        ).replace(',', '.')
         return context
 
     def form_valid(self, form):
@@ -208,36 +185,37 @@ def upload_vendas(request):
     Processa o upload de um arquivo contendo informações de vendas.
 
     Esta view permite que usuários autenticados façam o upload de um arquivo
-    (ex: Excel ou CSV) com dados de vendas. Após o upload, os dados são 
-    tratados e inseridos no banco de dados. A função verifica se os clientes, 
-    vendedores e produtos associados às vendas já existem, criando-os se 
-    necessário. Vendas duplicadas (baseadas em critérios específicos) não 
+    (ex: Excel ou CSV) com dados de vendas. Após o upload, os dados são
+    tratados e inseridos no banco de dados. A função verifica se os clientes,
+    vendedores e produtos associados às vendas já existem, criando-os se
+    necessário. Vendas duplicadas (baseadas em critérios específicos) não
     são inseridas novamente.
 
     Args:
-        request: O objeto HttpRequest que contém informações sobre a 
+        request: O objeto HttpRequest que contém informações sobre a
                  requisição feita pelo usuário, incluindo o arquivo enviado.
 
     Returns:
-        HttpResponse: Redireciona para a lista de vendas após o processamento 
+        HttpResponse: Redireciona para a lista de vendas após o processamento
                        do arquivo, exibindo uma mensagem de sucesso ou erro
                        conforme o resultado da operação.
 
     Raises:
-        Exception: Caso ocorra qualquer erro durante o processamento do arquivo,
-                    uma mensagem de erro será exibida ao usuário.
+        Exception: Caso ocorra qualquer erro durante o processamento
+        do arquivo, uma mensagem de erro será exibida ao usuário.
 
     Exemplo:
-        Se um arquivo contendo as colunas CLIENTE, VENDEDOR, Código, 
-        Descrição do Produto/Serviço, Data, Vl. Unit., Vl. Total, 
+        Se um arquivo contendo as colunas CLIENTE, VENDEDOR, Código,
+        Descrição do Produto/Serviço, Data, Vl. Unit., Vl. Total,
         Quantidade e Documento for carregado, as vendas serão processadas e
         inseridas no banco de dados, evitando duplicatas.
     """
     if request.method == 'POST':
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
-            file = request.FILES['file']  # Acessa o arquivo carregado
             try:
+                file = request.FILES['file']  # Acessa o arquivo carregado
+
                 # Usar a função de tratamento de dados
                 df = tratar_dados(file)
 
@@ -249,54 +227,64 @@ def upload_vendas(request):
                 for index, row in df.iterrows():
                     # Garantir que o cliente exista
                     cliente_nome = row['CLIENTE']
-                    cliente, created_cliente = Cliente.objects.get_or_create(nome=cliente_nome)
+                    cliente, created_cliente = Cliente.objects.get_or_create(
+                        nome=cliente_nome
+                    )
 
                     # Garantir que o vendedor exista
                     vendedor_nome = row['VENDEDOR']
-                    vendedor, created_vendedor = Vendedor.objects.get_or_create(nome=vendedor_nome)
-
-                    # Garantir que o produto exista
-                    produto_codigo = row['Código']
-                    produto_nome = row['Descrição do Produto/Serviço']
-                    produto, created = Produto.objects.get_or_create(
-                        produto=produto_nome,
-                        defaults={'codigo': produto_codigo}
+                    vendedor, created_vendedor = (
+                        Vendedor.objects.get_or_create(nome=vendedor_nome)
                     )
 
-                   # Verifique se a venda já existe
+                    # Garantir que o produto exista
+                    produto_codigo = row['CÓDIGO']
+                    produto_nome = row['DESCRIÇÃO DO PRODUTO/SERVIÇO']
+                    try:
+                        produto, created = Produto.objects.get_or_create(
+                            produto=produto_nome,
+                            defaults={'codigo': produto_codigo},
+                        )
+                    except Exception as erro:
+                        print(erro)
+                        produto, created = Produto.objects.get_or_create(
+                            produto=produto_nome, defaults={'codigo': None}
+                        )
+
+                    # Verifique se a venda já existe
                     venda_existente = Venda.objects.filter(
-                        data_da_venda=row['Data'],
+                        data_da_venda=row['DATA'],
                         cliente=cliente,
                         vendedor=vendedor,
                         produto=produto,
-                        valor_total=row['Vl. Total'],
-                        quantidade=row['Quantidade'],
-                        valor_unitario=row['Vl. Unit.'],
-                        nf=row['Documento'],
+                        valor_total=row['VL. TOTAL'],
+                        quantidade=row['QUANTIDADE'],
+                        valor_unitario=row['VL. UNIT.'],
+                        nf=row['DOCUMENTO'],
                     ).exists()
 
                     if not venda_existente:
                         # Criar a venda somente se ela não existir
                         Venda.objects.create(
-                            data_da_venda=row['Data'],
-                            nf=row['Documento'],
+                            data_da_venda=row['DATA'],
+                            nf=row['DOCUMENTO'],
                             cliente=cliente,
                             vendedor=vendedor,
                             produto=produto,
-                            unidade=row['Unid.'],
-                            quantidade=row['Quantidade'],
-                            valor_unitario=row['Vl. Unit.'],
-                            valor_total=row['Vl. Total']
+                            unidade=row['UNID.'],
+                            quantidade=row['QUANTIDADE'],
+                            valor_unitario=row['VL. UNIT.'],
+                            valor_total=row['VL. TOTAL'],
                         )
                         print(registros_inseridos)
                     else:
                         print('já existe')
                     registros_inseridos += 1
-                messages.success(request, f'Arquivo importado com sucesso!')
+                messages.success(request, 'Arquivo importado com sucesso!')
                 return redirect('vendas:lista_vendas')
             except Exception as e:
                 print(f'{e}')
-                messages.error(request, f"Erro ao processar o arquivo: {e}")
+                messages.error(request, f'Erro ao processar o arquivo: {e}')
                 return redirect('vendas:lista_vendas')
     else:
         form = UploadFileForm()
@@ -308,11 +296,12 @@ def download_vendas(request):
     """
     Gera um arquivo Excel com os dados de vendas e permite o download.
 
-    Esta view consulta as vendas no banco de dados e as exporta para um 
+    Esta view consulta as vendas no banco de dados e as exporta para um
     arquivo Excel ou CSV, que é retornado como resposta para download.
 
     Args:
-        request: O objeto HttpRequest que contém informações sobre a requisição.
+        request: O objeto HttpRequest que contém informações
+        sobre a requisição.
 
     Returns:
         HttpResponse: Um arquivo Excel ou CSV contendo os dados de vendas.
@@ -321,26 +310,41 @@ def download_vendas(request):
     vendedor = request.GET.get('vendedor', '')
     cliente = request.GET.get('cliente', '')
 
-    
     # Consulta os dados das vendas
     vendas = Venda.objects.all().values(
-        'data_da_venda', 'nf', 'cliente__nome', 'vendedor__nome', 
-        'produto__codigo', 'produto__produto', 'unidade', 'quantidade', 
-        'valor_unitario', 'valor_total'
+        'data_da_venda',
+        'nf',
+        'cliente__nome',
+        'vendedor__nome',
+        'produto__codigo',
+        'produto__produto',
+        'unidade',
+        'quantidade',
+        'valor_unitario',
+        'valor_total',
     )
 
     if vendedor:
         vendas = vendas.filter(vendedor__nome__icontains=vendedor)
-    
+
     if cliente:
         vendas = vendas.filter(cliente__nome__icontains=cliente)
     # Cria um DataFrame a partir da QuerySet
     df = pd.DataFrame(vendas)
 
     # Renomeia as colunas para algo mais amigável (opcional)
-    df.columns = ['Data da Venda', 'Nota Fiscal', 'Cliente', 'Vendedor', 
-                  'Código do Produto', 'Nome do Produto', 'Unidade', 
-                  'Quantidade', 'Valor Unitário', 'Valor Total']
+    df.columns = [
+        'Data da Venda',
+        'Nota Fiscal',
+        'Cliente',
+        'Vendedor',
+        'Código do Produto',
+        'Nome do Produto',
+        'Unidade',
+        'Quantidade',
+        'Valor Unitário',
+        'Valor Total',
+    ]
 
     # Gera o arquivo Excel em memória (usando o BytesIO)
     with io.BytesIO() as buffer:
@@ -351,8 +355,8 @@ def download_vendas(request):
         # Cria a resposta HTTP com o conteúdo do arquivo Excel
         response = HttpResponse(
             buffer.getvalue(),
-            content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+            content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
         )
         response['Content-Disposition'] = 'attachment; filename="vendas.xlsx"'
-    
+
     return response
