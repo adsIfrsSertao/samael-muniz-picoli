@@ -13,19 +13,31 @@
         <h2>Cadastrar</h2>
         <form method="POST" novalidate>
             {% csrf_token %}
+
             {% for field in form.visible_fields %}
-                <div class="form-group{% if field.errors %} has-error {% endif %}">
-                    <label for="{{ field.id_for_label }}">
-                        {% if field.field.required %}
-                            <span class="required">{{ field.label }} </span>
-                        {% else %}
-                            {{ field.label }}
-                        {% endif %}
-                    </label>
-                    {% render_field field class="form-control" %}
-                    <span class="text-muted">{{ field.errors.0 }}</span>
-                </div>
+                {% if field.name == "is_staff_or_superuser" %}
+                    <!-- Customização do campo is_staff_or_superuser -->
+                    <div class="form-group d-flex align-items-center">
+                        <label for="{{ field.id_for_label }}" class="mb-0">
+                            <input type="checkbox" id="{{ field.id_for_label }}" name="{{ field.html_name }}" {% if field.value %}checked{% endif %} class="custom-checkbox">
+                        </label>
+                        <span style="font-size: 16px; font-weight: bold;">Conceder permissões de Administrador</span>
+                    </div>
+                {% else %}
+                    <div class="form-group{% if field.errors %} has-error {% endif %}">
+                        <label for="{{ field.id_for_label }}">
+                            {% if field.field.required %}
+                                <span class="required">{{ field.label }} </span>
+                            {% else %}
+                                {{ field.label }}
+                            {% endif %}
+                        </label>
+                        {% render_field field class="form-control" %}
+                        <span class="text-muted">{{ field.errors.0 }}</span>
+                    </div>
+                {% endif %}
             {% endfor %}
+
             <button type="submit" class="btn btn-success">Cadastrar Usuário</button>
         </form>
     </div>

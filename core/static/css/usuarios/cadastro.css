@@ -6,11 +6,6 @@
     font-size: 18px;
 }
 
-
-.form-group {
-    margin-bottom: 15px;
-}
-
 .form-control {
     width: 100%;
     max-width: 350px;
@@ -29,8 +24,9 @@
 .container {
     display: flex;
     justify-content: center;
-    align-items: center;
-    height: 100vh; /* Altura da viewport */
+    align-items: flex-start;
+    margin-top: 5vh; /* Adiciona espaço superior para centralização */
+    min-height: 50vh; /* Define uma altura mínima */
 }
 
 .form-container h2 {
@@ -71,7 +67,14 @@ label {
     font-size: 25px;
 }
 
-h2 {
-    margin-bottom: 2.5rem; 
-    text-align: center;
+.custom-checkbox {
+    transform: scale(1.8); /* Aumenta o tamanho do checkbox */
+    margin-right: 12px; /* Ajusta o espaço entre o checkbox e o texto */
+}
+
+
+.btn-primary {
+    width: 100%;
+    max-width: 350px;
+    font-size: 18px;
 }

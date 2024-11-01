@@ -1,11 +1,12 @@
-from django.contrib.auth.mixins import UserPassesTestMixin
+from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, FormView
 
-from usuarios.forms import CustomUserCreationForm
+from usuarios.forms import CustomPasswordChangeForm, CustomUserCreationForm
 
 
 class CadastrarUsuario(UserPassesTestMixin, CreateView):
@@ -49,6 +50,46 @@ class CadastrarUsuario(UserPassesTestMixin, CreateView):
             HttpResponse: Redireciona para a página inicial.
         """
         return redirect('core:index')
+    
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        user = form.instance
+        if form.cleaned_data.get('is_staff_or_superuser'):
+            user.is_staff = True
+            user.is_superuser = True
+        user.save()
+        return response
+
+
+
+class AlterarSenha(LoginRequiredMixin, FormView):
+    """
+    View para a página 'Meu Perfil', onde o usuário pode alterar sua senha
+    sem a necessidade de inserir a senha antiga.
+
+    A classe utiliza o CustomPasswordChangeForm para processar a troca de senha e
+    redireciona o usuário para a página inicial após a alteração bem-sucedida.
+    """
+    form_class = CustomPasswordChangeForm
+    template_name = 'alterar_senha.html'
+    success_url = reverse_lazy('usuarios:login') 
+
+    def form_valid(self, form):
+        """
+        Processa o formulário de alteração de senha quando é considerado válido.
+
+        Este método salva a nova senha para o usuário autenticado e redireciona
+        para a URL de sucesso definida. 
+
+        Args:
+            form (CustomPasswordChangeForm): O formulário com os dados da nova senha.
+
+        Returns:
+            HttpResponse: Redireciona para a URL de sucesso se a alteração for válida.
+        """
+        form.save(self.request.user)
+        return super().form_valid(form)
 
 
 

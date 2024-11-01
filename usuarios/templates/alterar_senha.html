@@ -3,23 +3,20 @@
 {% load static %}
 {% load widget_tweaks %}
 
+
 {% block css %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/usuarios/cadastro.css' %}">
 {% endblock css %}
 
-
 {% block conteudo %}
 <div class="container">
     <div class="form-container">
-        <h2>Login</h2>
-        <form method="POST" novalidate>
+        <h2>Alterar Minha Senha</h2>
+
+        <form method="post">
             {% csrf_token %}
-            {% if form.non_field_errors %}
-                <div class="alert alert-danger">
-                    {{ form.non_field_errors }}
-                </div>
-            {% endif %}
-            {% for field in form.visible_fields %}
+            
+            {% for field in form %}
                 <div class="form-group{% if field.errors %} has-error {% endif %}">
                     <label for="{{ field.id_for_label }}">
                         {% if field.field.required %}
@@ -32,7 +29,8 @@
                     <span class="text-muted">{{ field.errors.0 }}</span>
                 </div>
             {% endfor %}
-            <button type="submit" class="btn btn-success">Entrar</button>
+            
+            <button type="submit" class="btn btn-primary">Salvar Alterações</button>
         </form>
     </div>
 </div>

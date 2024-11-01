@@ -58,14 +58,14 @@
             <div class="row mb-3">
                 <div class="col-md-3">
                     <div class="form-group">
-                        <label for="{{ form.tipo_grafico.id_for_label }}">Mostrar</label>
+                        <label for="{{ form.tipo_grafico.id_for_label }}">Selecionar</label>
                         {{ form.tipo_grafico|add_class:"select2" }}
                     </div>
                 </div>
 
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label for="{{ form.quantidade_opcoes.id_for_label }}">{{ form.quantidade_opcoes.label }}</label>
+                        <label for="{{ form.quantidade_opcoes.id_for_label }}">Mostrar</label>
                         {{ form.quantidade_opcoes|add_class:"select2" }}
                     </div>
                 </div>
@@ -99,5 +99,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.5/jspdf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 <script src="{% static 'js/graficos/charts.js' %}"></script>
 {% endblock js %}

@@ -45,10 +45,20 @@
             </li>
             
         </ul>
+        {% url 'usuarios:alterar_senha' as alterar_senha_url %}
+        {% url 'usuarios:registrar' as registrar_url %}
+
+        {% if user.is_authenticated %}
+            <ul class="navbar-nav px-3">
+                <li class="nav-item {% if request.path == alterar_senha_url %}active{% endif %}">
+                    <a href="{{ alterar_senha_url }}" class="nav-link">Alterar Senha</a>
+                </li>
+            </ul>
+        {% endif %}
         {% if user.is_superuser %}
             <ul class="navbar-nav px-3">
-                <li class="nav-item {% if 'usuarios' in request.resolver_match.app_name %}active{% endif %}">
-                    <a href="{% url 'usuarios:registrar' %}" class="nav-link">Registrar Usuário</a>
+                <li class="nav-item {% if request.path == registrar_url %}active{% endif %}">
+                    <a href="{{ registrar_url }}" class="nav-link">Registrar Usuário</a>
                 </li>
             </ul>
         {% endif %}
