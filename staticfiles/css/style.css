@@ -58,7 +58,7 @@ table tr:nth-child(even) {
 
 
 table tr:hover {
-    background-color: #2e7d32 !important; 
+    background-color: #f0eb5b !important; 
     color: #ffffff; 
 }
 
