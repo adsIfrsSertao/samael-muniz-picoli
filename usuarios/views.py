@@ -1,8 +1,11 @@
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView
-from django.shortcuts import redirect
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
+from django.views.generic import ListView
 from django.views.generic.edit import CreateView, FormView
 
 from usuarios.forms import CustomPasswordChangeForm, CustomUserCreationForm
@@ -145,3 +148,120 @@ class CustomLoginView(LoginView):
         if request.user.is_authenticated:
             return redirect('core:index')  # Redireciona para a página inicial
         return super().get(request, *args, **kwargs)
+
+
+class ListarUsuarios(UserPassesTestMixin, ListView):
+    """
+    Lista os usuários do sistema.
+
+    Esta view permite que apenas superusuários acessem a lista de
+    usuários e gerenciem seus status. Permite a busca por nome de
+    usuário e a realização de ações como alterar o status de
+    superusuário e excluir um usuário.
+    """
+
+    model = User
+    template_name = 'listar_usuarios.html'
+    context_object_name = 'usuarios'
+
+    def test_func(self):
+        """
+        Verifica se o usuário tem permissão para acessar a view.
+
+        Returns:
+            bool: Verdadeiro se o usuário é um superusuário, falso caso
+            contrário.
+        """
+        return self.request.user.is_superuser
+
+    def handle_no_permission(self):
+        """
+        Redireciona usuários não autorizados para a página inicial.
+
+        Caso o usuário não tenha permissão para acessar esta view,
+        ele é redirecionado para a URL especificada.
+
+        Returns:
+            HttpResponse: Redireciona para a página inicial.
+        """
+        return redirect('core:index')
+
+    def post(self, request, *args, **kwargs):
+        """
+        Processa requisições POST para alterar status ou excluir usuários.
+
+        Esta função verifica se a requisição é para alterar o status
+        de superusuário ou para excluir um usuário, executando a
+        ação apropriada.
+
+        Args:
+            request: O objeto de requisição HTTP.
+            *args: Argumentos adicionais.
+            **kwargs: Argumentos nomeados adicionais.
+
+        Returns:
+            HttpResponse: Redireciona para a lista de usuários.
+        """
+        if 'toggle_superuser' in request.POST:
+            user_id = request.POST.get('user_id')
+            user = User.objects.get(id=user_id)
+
+            user.is_superuser = 'is_superuser' in request.POST
+            user.save()
+            messages.success(
+                request,
+                f'Status de superusuário alterado para {user.username}.',
+            )
+
+        # Para excluir o usuário
+        elif 'delete_user' in request.POST:
+            user_id = request.POST.get('user_id')
+            user = User.objects.get(id=user_id)
+            user.delete()
+            messages.success(
+                request, f'Usuário {user.username} excluído com sucesso.'
+            )
+
+        return redirect('usuarios:listar_usuarios')
+
+    def get_queryset(self):
+        """
+        Retorna a lista de usuários, filtrando por nome se especificado.
+
+        Esta função verifica se há um parâmetro de busca na requisição
+        e filtra a lista de usuários com base nesse parâmetro.
+
+        Returns:
+            QuerySet: Conjunto de usuários filtrados.
+        """
+        queryset = super().get_queryset()
+        usuario = self.request.GET.get('usuario', '')
+        if usuario:
+            queryset = queryset.filter(username__icontains=usuario)
+        return queryset
+
+
+@login_required
+def deletar_usuario(request, pk):
+    """
+    Remove um usuário do sistema.
+
+    Este endpoint aceita apenas requisições POST. Se a requisição for
+    bem-sucedida, o usuário será excluído e uma mensagem de sucesso
+    será exibida. Caso contrário, o usuário será redirecionado para
+    a lista de usuários.
+
+    Args:
+        request: O objeto de requisição HTTP.
+        pk: O ID do usuário a ser removido.
+    Returns:
+        HttpResponse: Redireciona para a lista de usuários.
+    """
+    usuario = get_object_or_404(User, pk=pk)
+
+    if request.method == 'POST':
+        usuario.delete()
+        messages.success(request, 'Usuário removido com sucesso!')
+        return redirect('usuarios:listar_usuarios')
+
+    return redirect('usuarios:listar_usuarios')

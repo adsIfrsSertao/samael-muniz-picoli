@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/listagem.css' %}">
+    <style>
+        table {
+            width: 100%;  
+        }
+
+        th, td {
+            text-align: center;  
+            vertical-align: middle;  
+        }
+
+        .nome-col {
+            width: 50%;  
+        }
+
+        .actions-col {
+            width: 20%;  
+        }
+
+        .actions-col:last-child {
+            width: 30%;  
+        }
+
+        input[type="checkbox"] {
+            transform: scale(1.5);
+            margin: 0;
+        }
+
+        .actions-col input[type="checkbox"], 
+        .actions-col:last-child button {
+            display: inline-block;
+            margin: auto;
+        }
+    </style>
+{% endblock css %}
+
+{% block conteudo %}
+
+<div class="text-center">
+    {% for message in messages %}
+        {% if 'success' in message.tags %}
+            <div class="alert alert-success" role="alert">{{ message }}</div>
+        {% else %}
+            <div class="alert alert-danger" role="alert">{{ message }}</div>
+        {% endif %}
+    {% endfor %}
+</div>
+
+<div class="row margem-topo">
+    <div class="col-sm-6">
+        <form method="GET" action="{% url 'usuarios:listar_usuarios' %}" id="search-form" class="form-inline">
+            <input type="text" name="usuario" class="form-control fonte margem-direita" placeholder="Procurar por Usuário" value="{{ request.GET.usuario }}">
+            <button type="submit" class="btn btn-primary fonte"> Buscar <i class="fa fa-search"></i></button>
+        </form>
+    </div>
+</div>
+
+<div class="page-header mt-3">
+    <h2>Listagem de Usuários</h2>
+
+    <table class="table table-striped table-hover mt-3" id="lista-table">
+        <thead>
+            <tr>
+                <th class="fonte nome-col">Nome do Usuário</th>
+                <th class="actions-col fonte">Superusuário</th>
+                <th class="actions-col fonte">Ações</th>
+            </tr>
+        </thead>
+        <tbody id="list">
+            {% for usuario in usuarios %}
+                <tr>
+                    <td class="fonte-item nome-col">{{ usuario.username }}</td>
+                    <td class="actions-col">
+                        <form method="post" style="display: inline;">
+                            {% csrf_token %}
+                            <input type="hidden" name="user_id" value="{{ usuario.id }}">
+                            <input type="checkbox" name="is_superuser"
+                                   onchange="this.form.submit()"
+                                   {% if usuario.is_superuser %}checked{% endif %}>
+                            <input type="hidden" name="toggle_superuser" value="1">
+                        </form>
+                    </td>
+                    <td class="actions-col">
+                        <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal" data-id="{{ usuario.id }}">
+                            <span class="fa fa-trash"></span> Excluir
+                        </button>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Modal de Confirmação -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">Confirmar Exclusão</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Você tem certeza que deseja excluir este usuário?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <form id="deleteForm" method="post" action="" style="display:inline;">
+                    {% csrf_token %}
+                    <input type="hidden" name="user_id" id="user_id">
+                    <button type="submit" class="btn btn-danger fonte-botao"><span class="fa fa-trash"></span> Apagar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock conteudo %}
+
+{% block js %}
+<script src="{% static 'js/exclusao_item.js' %}"></script>
+<script>
+    $(document).ready(function() {
+        $('#deleteModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var userId = button.data('id'); 
+            var form = $(this).find('#deleteForm');
+            form.attr('action', '{% url "usuarios:deletar_usuario" 0 %}'.replace('0', userId));
+
+            $('#user_id').val(userId);
+        });
+    });
+</script>
+{% endblock js %}

@@ -47,6 +47,7 @@
         </ul>
         {% url 'usuarios:alterar_senha' as alterar_senha_url %}
         {% url 'usuarios:registrar' as registrar_url %}
+        {% url 'usuarios:listar_usuarios' as lista_url %}
 
         {% if user.is_authenticated %}
             <ul class="navbar-nav px-3">
@@ -61,6 +62,12 @@
                     <a href="{{ registrar_url }}" class="nav-link">Registrar Usuário</a>
                 </li>
             </ul>
+            <ul class="navbar-nav px-3">
+                <li class="nav-item {% if request.path == lista_url %}active{% endif %}">
+                    <a href="{{ lista_url }}" class="nav-link">Lista de Usuários</a>
+                </li>
+            </ul>
+            
         {% endif %}
         {% if user.is_authenticated %}
             <ul class="navbar-nav px-3">
