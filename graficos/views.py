@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.db.models import Sum
 from django.http import JsonResponse
 from django.shortcuts import render
@@ -7,6 +8,7 @@ from vendas.models import Venda
 from .forms import FiltroGraficoForm
 
 
+@login_required(login_url='usuarios/login/')
 def gerar_grafico(request):
     """
     Gera um gráfico de vendas com base nos filtros fornecidos pelo usuário.

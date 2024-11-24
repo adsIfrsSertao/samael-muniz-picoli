@@ -15,15 +15,22 @@ body {
 }
 
 .footer {
-    position: relative; /* Fixa o rodapé na parte inferior do conteúdo */
+    display: flex; /* Usa flexbox para organizar os filhos */
+    justify-content: center; /* Centraliza as colunas */
+    align-items: flex-start; /* Alinha as colunas no topo */
     background-color: #e97b0d; /* mesma cor da navbar */
-    padding-top: 0.5rem; /* Diminui o padding superior */
-    padding-bottom: 0rem; /* Diminui o padding inferior */
+    padding: 0.5rem 1rem; /* Espaçamento interno */
     text-align: center;
     font-size: 0.9rem; /* Ajusta o tamanho do texto para ser menor */
     color: black; /* Muda a cor do texto para preto */
     margin-top: auto; /* Faz o rodapé ir para o final */
-    margin-bottom: 0px;
+    position: relative; /* Mantém o rodapé na posição relativa ao conteúdo */
+}
+
+.empresa, .autor {
+    flex: 1; /* Faz cada coluna ocupar o mesmo espaço */
+    max-width: 300px; /* Limita a largura máxima das colunas */
+    margin: 0 1rem; /* Adiciona espaço entre as colunas */
 }
 
 .footer a {
@@ -37,4 +44,11 @@ body {
 
 .footer p {
     margin: 0.5rem 0; /* Espaço reduzido entre os parágrafos */
+}
+
+.footer img {
+    width: 20px; /* Tamanho dos ícones */
+    height: auto;
+    margin-right: 0.5rem;
+    vertical-align: middle;
 }
