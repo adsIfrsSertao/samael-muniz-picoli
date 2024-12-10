@@ -15,7 +15,7 @@
 .detalhe-tabela td {
     width: 70%; 
     text-align: left;
-    background-color: #8ef08e; 
+    background-color: #faf7a9 !important; 
     color: black; 
 }
 
