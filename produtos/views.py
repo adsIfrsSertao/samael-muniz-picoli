@@ -41,7 +41,7 @@ class ProdutoList(LoginRequiredMixin, ListView):
         queryset = super().get_queryset()
         produto = self.request.GET.get('produto', '')
         if produto:
-            queryset = queryset.filter(produto__icontains=produto)
+            queryset = queryset.filter(produto__istartswith=produto)
 
         return queryset
 

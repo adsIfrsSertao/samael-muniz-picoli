@@ -63,7 +63,7 @@ class VendedoresList(SuperAdminRequiredMixin, LoginRequiredMixin, ListView):
         queryset = super().get_queryset()
         vendedor = self.request.GET.get('vendedor', '')
         if vendedor:
-            queryset = queryset.filter(nome__icontains=vendedor)
+            queryset = queryset.filter(nome__istartswith=vendedor)
 
         return queryset
 
@@ -165,7 +165,7 @@ class DeletarVendedor(SuperAdminRequiredMixin, LoginRequiredMixin, DeleteView):
         return super().delete(request, *args, **kwargs)
 
     def get(self, request, *args, **kwargs):
-        """
+        """istartswith
         Redireciona a solicitação GET para o método POST.
 
         Args:

@@ -33,7 +33,7 @@ class ClientesList(LoginRequiredMixin, ListView):
         O método filtra os clientes com base no parâmetro de busca 'cliente'
         fornecido na requisição GET. Se o parâmetro estiver presente e não
         for vazio, o queryset será filtrado para incluir apenas os clientes
-        cujo nome contém o valor fornecido.
+        cujo nome começa com o valor fornecido.
 
         Returns:
             QuerySet: O conjunto de clientes filtrado.
@@ -42,7 +42,7 @@ class ClientesList(LoginRequiredMixin, ListView):
         queryset = super().get_queryset()
         cliente = self.request.GET.get('cliente', '')
         if cliente:
-            queryset = queryset.filter(nome__icontains=cliente)
+            queryset = queryset.filter(nome__istartswith=cliente)
 
         return queryset
 

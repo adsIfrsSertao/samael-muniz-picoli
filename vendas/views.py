@@ -50,9 +50,9 @@ class VendaList(LoginRequiredMixin, ListView):
         cliente = self.request.GET.get('cliente', '')
         vendedor = self.request.GET.get('vendedor', '')
         if cliente:
-            queryset = queryset.filter(cliente__nome__icontains=cliente)
+            queryset = queryset.filter(cliente__nome__istartswith=cliente)
         if vendedor:
-            queryset = queryset.filter(vendedor__nome__icontains=vendedor)
+            queryset = queryset.filter(vendedor__nome__istartswith=vendedor)
 
         return queryset
 

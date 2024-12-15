@@ -237,7 +237,7 @@ class ListarUsuarios(UserPassesTestMixin, ListView):
         queryset = super().get_queryset()
         usuario = self.request.GET.get('usuario', '')
         if usuario:
-            queryset = queryset.filter(username__icontains=usuario)
+            queryset = queryset.filter(username__istartswith=usuario)
         return queryset
 
 

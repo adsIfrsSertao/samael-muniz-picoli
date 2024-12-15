@@ -154,3 +154,35 @@ document.getElementById("btn-download").onclick = function() {
         pdf.save('grafico_de_vendas.pdf'); // Nome do arquivo PDF
     });
 };
+
+
+document.getElementById("btn-limpar-grafico").onclick = function() {
+    if (meuGrafico) {
+        meuGrafico.destroy(); // Destrói o gráfico existente
+        meuGrafico = null; // Reseta a variável
+    }
+    document.getElementById("mensagem-erro").style.display = "none"; // Esconde a mensagem de erro
+    document.getElementById("download-container").style.display = "none"; // Esconde o botão de download
+};
+
+// Limpar Filtros
+document.getElementById("btn-limpar-filtros").onclick = function() {
+    // Reseta o formulário
+
+    document.getElementById('form-filtros').reset(); 
+    
+    // Reinicializa o Select2
+    $('.select2').select2({
+        placeholder: 'Selecione uma opção',
+        allowClear: false,
+    });
+    
+    if (meuGrafico) {
+        meuGrafico.destroy(); // Destrói o gráfico se existir
+        meuGrafico = null; // Reseta a variável
+    }
+    
+    // Certifica que não há erros ou gráficos exibidos
+    document.getElementById("mensagem-erro").style.display = "none"; 
+    document.getElementById("download-container").style.display = "none"; // Esconde o botão de download
+};
