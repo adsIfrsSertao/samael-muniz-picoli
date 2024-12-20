@@ -21,13 +21,13 @@
                         <label for="{{ field.id_for_label }}" class="mb-0">
                             <input type="checkbox" id="{{ field.id_for_label }}" name="{{ field.html_name }}" {% if field.value %}checked{% endif %} class="custom-checkbox">
                         </label>
-                        <span style="font-size: 16px; font-weight: bold;">Conceder permissões de Administrador</span>
+                        <span style="font-size: 16px; font-weight: bold;"> Conceder permissões de Administrador</span>
                     </div>
                 {% else %}
                     <div class="form-group{% if field.errors %} has-error {% endif %}">
                         <label for="{{ field.id_for_label }}">
                             {% if field.field.required %}
-                                <span class="required">{{ field.label }} </span>
+                                <span class="required" style="font-size: 22px;">{{ field.label }} </span>
                             {% else %}
                                 {{ field.label }}
                             {% endif %}
