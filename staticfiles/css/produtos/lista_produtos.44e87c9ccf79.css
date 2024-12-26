@@ -1,0 +1,12 @@
+/* Estilo para a tabela de produtos */
+#produtos-table th, #produtos-table td {
+    padding: 12px 15px; 
+}
+
+#produtos-table th {
+    text-align: center;
+}
+
+#produtos-table td {
+    text-align: center; 
+}

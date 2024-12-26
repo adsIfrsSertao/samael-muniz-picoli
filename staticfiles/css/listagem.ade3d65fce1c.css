@@ -1,0 +1,67 @@
+/* Estilo para o alerta, fazendo um flutuamento sobre o topo da tela */
+.alert {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+    width: auto; 
+    max-width: 90%; 
+    padding: 20px; 
+    text-align: center;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    font-size: 1.1rem;
+    border-radius: 5px; 
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+/* Estilo para a paginação */
+.container-paginacao {
+    margin-top: 10px;
+}
+
+.fonte {
+    font-size: 22px;
+}
+
+.margem-topo {
+    margin-top: 120px;
+}
+
+.margem-direita {
+    margin-right: 10px;
+}
+
+.margem-esquerda {
+    margin-left: 10px;
+}
+
+td.fonte-item {
+    font-size: 20px !important;
+}
+
+.fonte-botao {
+    font-size: 16px !important;
+}
+
+h2 {
+    font-size: 40px;
+    font-weight: bold;
+}
+
+svg {
+    width: 60px; /* Largura do ícone */
+    height: 60px; /* Altura do ícone */
+    vertical-align: middle; /* Alinhamento vertical */
+    fill: none; /* Remove a cor de preenchimento */
+    stroke: #000; /* Cor da borda do ícone */
+}

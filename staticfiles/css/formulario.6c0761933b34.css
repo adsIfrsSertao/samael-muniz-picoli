@@ -1,0 +1,41 @@
+/* Mantém o botão voltar à esquerda e o formulário centralizado */
+.top-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 20px;
+    margin-top: 60px;
+}
+
+/* Centraliza o conteúdo principal (formulário) */
+.form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 40px;
+}
+
+/* Reduz o tamanho dos campos de input */
+.form-control {
+    width: 600px; 
+    font-size: 22px;
+    height: 50px;
+}
+
+/* Aumenta o tamanho da fonte das labels */
+label {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+/* Estilo para o botão de voltar */
+.back-btn {
+    margin-left: 20px;
+    font-size: 22px;
+}
+
+.botao-salvar {
+    margin-bottom: 40px; 
+    margin-top: 25px;
+    font-size: 25px;
+}

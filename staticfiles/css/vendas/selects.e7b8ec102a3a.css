@@ -1,0 +1,18 @@
+/* Ajustando a altura dos selects */
+.select2-container .select2-selection--single {
+    height: 50px; /* Define a altura desejada */
+    display: flex;
+    align-items: center; /* Alinha o texto verticalmente */
+}
+
+/* Ajuste do campo de renderização do texto dentro do select2 */
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    padding-top: 0px;
+    padding-bottom: 0px;
+    line-height: 50px; /* Mesma altura que a altura definida acima */
+}
+
+/* Ajuste da seta dentro do select2 para alinhar corretamente */
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 50px; /* Alinhado com a altura do select */
+}

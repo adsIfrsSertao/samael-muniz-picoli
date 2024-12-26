@@ -1,0 +1,93 @@
+
+.navbar {
+    padding-top: 2.5rem;
+    padding-bottom: 1.5rem;
+    background-color: #e97b0d; 
+}
+
+/* Estilo para todos os links da navbar */
+.navbar .navbar-brand, .navbar .nav-link {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: rgb(100, 98, 98); 
+}
+
+/* Estilo para o item ativo */
+.navbar .nav-item.active .nav-link {
+    color: #fff !important; 
+}
+
+/* Estilo para o título da navbar */
+#titulo-navbar {
+    color: rgb(0, 0, 0);
+    margin-right: 30px;
+}
+
+/* Ajusta o espaçamento horizontal entre itens */
+.navbar .nav-item {
+    margin-right: 10px; 
+    margin-left: 10px;
+}
+
+/* Estilo para a imagem ao lado do texto na marca */
+.navbar-brand img {
+    height: 50px; 
+    margin-right: 5px;
+}
+
+/* Estilo para dropdown */
+.navbar .dropdown-menu {
+    background-color: #ff7f00; 
+    border: none;
+}
+
+/* Texto branco no dropdown */
+.navbar .dropdown-menu .dropdown-item {
+    color: #fff; 
+}
+
+/* Ajusta a margem dos elementos abaixo da navbar */
+body {
+    padding-top: 80px; 
+}
+
+
+@media (max-width: 767px) {
+    .navbar .navbar-brand {
+        font-size: 18px;
+    }
+    .navbar .nav-link {
+        font-size: 16px;
+    }
+    .navbar .nav-item {
+        margin-right: 10px; 
+        margin-left: 10px;
+    }
+
+    .navbar-toggler {
+        border-color: rgba(255, 255, 255, 0.5); 
+    }
+
+    .navbar-toggler-icon {
+        background-image: none; 
+        display: block; 
+    }
+
+    .navbar-toggler:before {
+        content: ""; 
+        display: block;
+        width: 30px; 
+        height: 3px; 
+        background-color: rgb(0, 0, 0);
+        margin: 6px 0;
+    }
+
+    .navbar-toggler:after {
+        content: ""; 
+        display: block;
+        width: 30px; 
+        height: 3px;  
+        background-color: rgb(0, 0, 0); 
+        margin: 6px 0; 
+    }
+}

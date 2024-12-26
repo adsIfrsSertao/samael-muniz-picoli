@@ -1,0 +1,55 @@
+html, body {
+    height: 100%; /* Garante que o body ocupe toda a altura */
+    margin: 0; /* Remove margens padrão */
+}
+
+body {
+    display: flex;
+    flex-direction: column; /* Organiza os filhos em coluna */
+}
+
+.content {
+    flex: 1; /* Permite que o conteúdo use o espaço restante */
+    padding: 0.8rem;
+    overflow-y: auto; /* Permite rolagem se o conteúdo for grande */
+    min-height: calc(100vh - 100px); /* Ajuste conforme necessário para evitar sobreposição */
+}
+
+.footer {
+    display: flex; /* Usa flexbox para organizar os filhos */
+    justify-content: center; /* Centraliza as colunas */
+    align-items: flex-start; /* Alinha as colunas no topo */
+    background-color: #e97b0d; /* mesma cor da navbar */
+    padding: 0.5rem 1rem; /* Espaçamento interno */
+    text-align: center;
+    font-size: 0.9rem; /* Ajusta o tamanho do texto para ser menor */
+    color: black; /* Muda a cor do texto para preto */
+    margin-top: auto; /* Faz o rodapé ir para o final */
+    position: relative; /* Mantém o rodapé na posição relativa ao conteúdo */
+}
+
+.empresa, .autor {
+    flex: 1; /* Faz cada coluna ocupar o mesmo espaço */
+    max-width: 500px; /* Limita a largura máxima das colunas */
+    margin: 0 1rem; /* Adiciona espaço entre as colunas */
+}
+
+.footer a {
+    color: black; /* Muda a cor do link para preto */
+    text-decoration: none;
+}
+
+.footer a:hover {
+    color: #fff; /* Cor branca ao passar o mouse */
+}
+
+.footer p {
+    margin: 0.5rem 0; /* Espaço reduzido entre os parágrafos */
+}
+
+.footer img {
+    width: 25px; /* Tamanho dos ícones */
+    height: auto;
+    margin-right: 0.5rem;
+    vertical-align: middle;
+}
