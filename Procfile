@@ -1,2 +1,2 @@
-web: gunicorn projeto.wsgi
-web: python manage.py runserver
+web gunicorn projeto.wsgi:application --log-file -
+
